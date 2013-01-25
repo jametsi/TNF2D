@@ -5,3 +5,6 @@
  * Time: 22:52
  * To change this template use File | Settings | File Templates.
  */
+var game = {
+
+}

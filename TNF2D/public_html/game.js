@@ -43,7 +43,7 @@ var game = {
     hero: {},
 
     init: function() {
-        // TODO init game
+
         game.context = $('#gamecanvas')[0].getContext('2d');
 
         // Näytetään päämenu
@@ -51,6 +51,16 @@ var game = {
         $('#startscreen').show();
     },
     start: function() {
+
+        // Näytetään pelicanvas
+        $('.gamelayer').hide();
+        $('#gamecanvas').show();
+    },
+
+    step: function() {
+
+    },
+    animate: function() {
 
     }
 }

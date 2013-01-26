@@ -53,7 +53,20 @@ var game = {
         $('.gamelayer').hide();
         $('#startscreen').show();
     },
+    playTutorial: function() {
+        $('.gamelayer').fadeToggle(4000, function() {
+            $('#tutorialpage').fadeIn(4000, function() {
+                $('#tutorialpage').click(function() {
+                    $('#tutorialpage').fadeOut(7000, game.start);
+
+                });
+            });
+        });
+
+
+    },
     start: function() {
+
         for (var entity in level.entities) {
             entities.create(level.entities[entity]);
         }
@@ -73,8 +86,8 @@ var game = {
 
             game.hero.walking = true;
 
-            var dx = game.hero.x - keyhandler.cursorX;
-            var dy = game.hero.y - keyhandler.cursorY;
+            var dx = game.hero.x+game.hero.width/2 - keyhandler.cursorX;
+            var dy = game.hero.y+game.hero.height/2 - keyhandler.cursorY;
             game.hero.angle = Math.atan2(dy, dx)*(180/Math.PI);
             game.hero.x += Math.cos(game.hero.angle*(Math.PI/180))*-game.hero.walkSpeed;
             game.hero.y += Math.sin(game.hero.angle*(Math.PI/180))*-game.hero.walkSpeed;
@@ -147,12 +160,12 @@ var entities = {
         switch(entity.type) {
             case "hero":
                 game.context.translate(entity.x+entity.width/2, entity.y+entity.height/2);
-                game.context.rotate(entity.angle);
+                game.context.rotate(entity.angle*Math.PI/180);
 
                 game.context.fillStyle = 'rgb(255,0,0)';
                 game.context.drawImage(entity.sprite, 0, 0, 100, 100, 0-entity.width/2, 0-entity.height/2, entity.width, entity.height);
 
-                game.context.rotate(-entity.angle);
+                game.context.rotate(-entity.angle*Math.PI/180);
                 game.context.translate(-(entity.x+entity.width/2), -(entity.y+entity.height/2));
 
                 // Debug-viiva kursorille

@@ -46,10 +46,14 @@ var game = {
 
     init: function() {
         game.canvas = $('#gamecanvas')[0];
+        game.overlaycanvas = $('#overlaycanvas')[0];
         game.context = game.canvas.getContext('2d');
+        game.overlay = game.canvas.getContext('2d');
 
         game.canvas.height = window.innerHeight;
         game.canvas.width = window.innerWidth;
+        game.overlay.height = window.innerHeight;
+        game.overlay.width = window.innerWidth;
         game.painter = new Painter();
 
         // Näytetään päämenu

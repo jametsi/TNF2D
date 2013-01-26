@@ -21,14 +21,36 @@ Hero.prototype.turn = function() {
     var dx = keyhandler.cursorX - game.canvas.width/2;
     var dy = keyhandler.cursorY - game.canvas.height/2;
     var newAngle = -(Math.atan2(dy, dx)*(180/Math.PI));
-    console.log(newAngle);
 
+
+    this.angle = newAngle;
+    /* Yritelmä korjata kääntyminen ... ei ihan onnistunut mutta jätetään tänne <3<3<3 LOVEE KAIKILLE ;)
+    var temp_sin = Math.sqrt(dx*dx+dy*dy)/dy
+
+    if(newAngle - this.angle > Math.PI) {
+        if(temp_sin > 0) {
+            this.turnRight();
+        }
+        else {
+            this.turnLeft();
+        }
+    } else {
+        if(temp_sin < 0) {
+            this.turnRight();
+        }
+        else {
+            this.turnLeft();
+        }
+    } */
+
+    /*
     if(newAngle > this.angle % 360) {
         this.turnRight();
     }
     else if(newAngle < this.angle % 360) {
         this.turnLeft();
-    }
+    }*/
+    
 }
 
 Hero.prototype.turnRight = function() {

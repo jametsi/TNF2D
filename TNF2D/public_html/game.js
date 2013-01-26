@@ -41,10 +41,11 @@ var game = {
 
     context: {},
     hero: {},
+    entities: [],
 
     init: function() {
-
-        game.context = $('#gamecanvas')[0].getContext('2d');
+        game.canvas = $('#gamecanvas')[0];
+        game.context = game.canvas.getContext('2d');
 
         // Näytetään päämenu
         $('.gamelayer').hide();
@@ -52,37 +53,103 @@ var game = {
     },
     start: function() {
 
+        game.ended = false;
         // Näytetään pelicanvas
         $('.gamelayer').hide();
         $('#gamecanvas').show();
     },
 
     step: function() {
-
+        if (keyhandler.down) {
+            // TODO liikkuminen
+        }
     },
     animate: function() {
 
+        game.step();
+
+        if (game.ended) {
+            //TODO näytä loppuruutu
+        }
+        else {
+            game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);
+        }
+    },
+    drawAllEntities: function() {
+        for (var entity in game.entities) {
+            entities.draw(game.entities[entity]);
+        }
     }
 }
 
-var levels = {
-   definitions: [{
-
-   }]
+var level = {
+    definition:{},
+    entities:[]
 }
 
 var entities = {
     definitions: [{
         name: "blank",
-        type: "blank",
+        type: "hero",
         width:0,
         height:0
     }],
-    create: function() {
+    create: function(entity) {
 
     },
     draw: function(entity) {
 
+    }
+}
+
+var keyhandler = {
+
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+
+    init: function() {
+        $(window).keydown(function(e) {
+            var code = e.keyCode;
+            //    console.log(code);
+            if(code == 37) { // Vasen
+                e.preventDefault();
+                keyhandler.left = true;
+            }
+            if(code == 39) { // Oikea
+                e.preventDefault();
+                keyhandler.right = true;
+            }
+            if(code == 38) { // Ylös
+                e.preventDefault();
+                keyhandler.up = true;
+            }
+            if(code == 40) { // Alas
+                e.preventDefault();
+                keyhandler.down = true;
+            }
+        });
+        $(window).keyup(function(e) {
+            var code = e.keyCode;
+            //    console.log(code);
+            if(code == 37) { // Vasen
+                e.preventDefault();
+                keyhandler.left = false;
+            }
+            if(code == 39) { // Oikea
+                e.preventDefault();
+                keyhandler.right = false;
+            }
+            if(code == 38) { // Ylös
+                e.preventDefault();
+                keyhandler.up = false;
+            }
+            if(code == 40) { // Alas
+                e.preventDefault();
+                keyhandler.down = false;
+            }
+        });
     }
 }
 

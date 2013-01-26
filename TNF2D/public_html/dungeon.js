@@ -71,16 +71,16 @@ mapTile = function(type, x, y)  {
 }
 
 var mapItemImageUrls = {
-    "TOP"               : "img/wall_top.png",
-    "BOTTOM"            : "img/wall_bottom.png",
-    "TOP_BOTTOM"        : 'img/wall_top_bottom.png',
-    "LEFT"              : 'img/wall_left.png',
-    "RIGHT"             : 'img/wall_right.png',
-    "LEFT_RIGHT"        : 'img/wall_left_right.png',
-    "LEFT_BOTTOM_RIGHT" : 'img/wall_left_bottom_right.png',
-    "TOP_LEFT_RIGHT"    : 'img/wall_top_left_right.png',
-    "TOP_RIGHT_BOTTOM"  : 'img/wall_top_right_bottom.png',
-    "TOP_LEFT_BOTTOM"   : 'img/wall_top_left_bottom.png',
+    "TOP"               : "img/seina_yla.png",
+    "BOTTOM"            : "img/seina_ala.png",
+    "TOP_BOTTOM"        : 'img/seina_alayla.png',
+    "LEFT"              : 'img/seina_vasen.png',
+    "RIGHT"             : 'img/seina_oikea.png',
+    "LEFT_RIGHT"        : 'img/seina_vasenoikea.png',
+    "LEFT_BOTTOM_RIGHT" : 'img/seina_vasenalaoikea.png',
+    "TOP_LEFT_RIGHT"    : 'img/seina_vasenylaoikea.png',
+    "TOP_RIGHT_BOTTOM"  : 'img/seina_oikeaalayla.png',
+    "TOP_LEFT_BOTTOM"   : 'img/seina_vasenalayla.png',
     "EMPTY"             : 'img/wall_fail.png'
 
 }

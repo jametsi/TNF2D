@@ -46,27 +46,48 @@ var game = {
     init: function() {
         game.canvas = $('#gamecanvas')[0];
         game.context = game.canvas.getContext('2d');
+        game.canvas.height = window.innerHeight;
+        game.canvas.width = window.innerWidth;
 
         // Näytetään päämenu
         $('.gamelayer').hide();
         $('#startscreen').show();
     },
     start: function() {
-
+        for (var entity in level.entities) {
+            entities.create(level.entities[entity]);
+        }
         game.ended = false;
-        // Näytetään pelicanvas
+
+        keyhandler.init();
+
+        // Näytetään pelicanvas ja startataan animaatio
         $('.gamelayer').hide();
         $('#gamecanvas').show();
+        game.animate();
     },
 
     step: function() {
         if (keyhandler.down) {
-            // TODO liikkuminen
+            game.entities[0].y++;
+        }
+        if (keyhandler.up) {
+            game.entities[0].y--;
+        }
+        if (keyhandler.left) {
+            game.entities[0].x--;
+        }
+        if (keyhandler.right) {
+            game.entities[0].x++;
         }
     },
     animate: function() {
 
+        // Siivotaan canvas
+        game.context.clearRect(0,0,game.canvas.width,game.canvas.height);
+
         game.step();
+        game.drawAllEntities();
 
         if (game.ended) {
             //TODO näytä loppuruutu
@@ -84,20 +105,43 @@ var game = {
 
 var level = {
     definition:{},
-    entities:[]
+    entities:[{type: "hero", x: 10, y: 10}]
 }
 
 var entities = {
-    definitions: [{
-        name: "blank",
-        type: "hero",
-        width:0,
-        height:0
-    }],
+    definitions: {
+        "hero": {
+            name: "blank",
+            type: "hero",
+            width:10,
+            height:10
+        }
+    },
     create: function(entity) {
 
+        var definition = entities.definitions[entity.type];
+        if (!definition) {
+            console.log ("Undefined entity type ", entity.type);
+            return;
+        }
+
+
+        switch(entity.type) {
+            case "hero":
+                console.log(entity);
+                entity.width = definition.width;
+                entity.height = definition.height;
+                //entity.sprite = loader.loadImage("img/hero.png");
+                game.entities.push(entity);
+        }
     },
     draw: function(entity) {
+
+        switch(entity.type) {
+            case "hero":
+                game.context.fillStyle = 'rgb(255,0,0)';
+                game.context.fillRect(entity.x, entity.y, entity.width, entity.height);
+        }
 
     }
 }

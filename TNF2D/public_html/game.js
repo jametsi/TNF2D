@@ -49,6 +49,9 @@ var game = {
         game.canvas.height = window.innerHeight;
         game.canvas.width = window.innerWidth;
 
+        // Ladataan pelimusiikki
+        game.theme = loader.loadSound("snd/TNFI2D_theme");
+        game.theme.play();
         // Näytetään päämenu
         $('.gamelayer').hide();
         $('#startscreen').show();
@@ -57,13 +60,29 @@ var game = {
         $('.gamelayer').fadeToggle(4000, function() {
             $('#tutorialpage').fadeIn(4000, function() {
                 $('#tutorialpage').click(function() {
+
+                    // Feidataan teemamusiikki pois
+                    $(game.theme).on('timeupdate', function () {
+                        var vol = 1,
+                            interval = 250;
+                        if (game.theme.volume == 1) {
+                            var intervalID = setInterval(function () {
+                                if (vol > 0) {
+                                    vol -= 0.02;
+                                    game.theme.volume = vol.toFixed(2);
+                                } else {
+                                    clearInterval(intervalID);
+                                }
+                            }, interval);
+                        }
+                    });
+
+                    // Feidataan tutoriaalisivu pois, ja startataan peli
                     $('#tutorialpage').fadeOut(10000, game.start);
 
                 });
             });
         });
-
-
     },
     start: function() {
 

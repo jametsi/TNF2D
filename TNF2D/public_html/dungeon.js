@@ -54,6 +54,18 @@ mapTile = function(type, x, y)  {
         else if(this.TOPWALL && this.BOTTOMWALL  && this.RIGHTWALL == false && this.LEFTWALL ) {
             this.image = mapItemImages["TOP_LEFT_BOTTOM"];
         }
+        else if(this.TOPWALL == false && this.BOTTOMWALL  && this.RIGHTWALL&& this.LEFTWALL == false  ) {
+            this.image = mapItemImages["RIGHT_BOTTOM"];
+        }
+        else if(this.TOPWALL  && this.BOTTOMWALL== false  && this.RIGHTWALL && this.LEFTWALL == false  ) {
+            this.image = mapItemImages["TOP_RIGHT"];
+        }
+        else if(this.TOPWALL  == false  && this.BOTTOMWALL  && this.RIGHTWALL == false && this.LEFTWALL ) {
+            this.image = mapItemImages["LEFT_BOTTOM"];
+        }
+        else if(this.TOPWALL && this.BOTTOMWALL  == false   && this.RIGHTWALL == false && this.LEFTWALL ) {
+            this.image = mapItemImages["TOP_LEFT"];
+        }
         else {
             this.image =mapItemImages["EMPTY"];
         }
@@ -81,7 +93,11 @@ var mapItemImageUrls = {
     "TOP_LEFT_RIGHT"    : 'img/seina_vasenylaoikea.png',
     "TOP_RIGHT_BOTTOM"  : 'img/seina_oikeaalayla.png',
     "TOP_LEFT_BOTTOM"   : 'img/seina_vasenalayla.png',
-    "EMPTY"             : 'img/wall_fail.png'
+    "EMPTY"             : 'img/wall_fail.png',
+    "RIGHT_BOTTOM"      : 'img/seina_oikeaala.png',
+    "TOP_RIGHT"         : 'img/seina_oikeayla.png',
+    "LEFT_BOTTOM"       : 'img/seina_vasenalaoikea.png',
+    "TOP_LEFT"          : 'img/seina_vasenyla.png'
 
 }
 

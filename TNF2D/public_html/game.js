@@ -91,6 +91,7 @@ var game = {
         game.context.clearRect(0,0,game.canvas.width,game.canvas.height);
 
         game.step();
+        dungeon.draw();
         game.drawAllEntities();
 
         if (game.ended) {

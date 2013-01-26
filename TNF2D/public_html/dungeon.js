@@ -135,6 +135,10 @@ var dungeon = {
         return true;
     },
 
+    draw: function() {
+
+    },
+
 
     printArray: function () {
         var line = "";

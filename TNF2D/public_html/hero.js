@@ -18,15 +18,15 @@ Hero.prototype.update = function() {
 }
 
 Hero.prototype.turn = function() {
-    var dx = game.painter.camera.x - keyhandler.cursorX;
-    var dy = game.painter.camera.y - keyhandler.cursorY;
+    var dx = keyhandler.cursorX - game.canvas.width/2;
+    var dy = keyhandler.cursorY - game.canvas.height/2;
     var newAngle = -(Math.atan2(dy, dx)*(180/Math.PI));
     console.log(newAngle);
 
-    if(newAngle > this.angle) {
+    if(newAngle > this.angle % 360) {
         this.turnRight();
     }
-    else if(newAngle < this.angle) {
+    else if(newAngle < this.angle % 360) {
         this.turnLeft();
     }
 }
@@ -42,6 +42,6 @@ Hero.prototype.turnLeft = function() {
 
 
 Hero.prototype.move = function() {
-    this.position.x += Math.cos(this.angle * (Math.PI / 180)) * this.walkingSpeed;
-    this.position.y += Math.sin(this.angle * (Math.PI / 180)) * this.walkingSpeed;
+    this.position.x += Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+    this.position.y += Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 }

@@ -114,9 +114,9 @@ Painter.prototype.drawHero = function() {
     var translatepaskey = this.camera.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(game.hero.angle * Math.PI / 180);
+    game.context.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
     game.context.drawImage(game.hero.sprite, 0, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
-    game.context.rotate(-game.hero.angle* Math.PI / 180);
+    game.context.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     // Debug-viiva kursorille

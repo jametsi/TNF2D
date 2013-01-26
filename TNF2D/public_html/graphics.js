@@ -16,10 +16,18 @@ Painter.prototype.draw = function() {
 }
 
 Painter.prototype.updateCameraPosition = function() {
+    updateDrawableLimit();
 
 }
 
-Painter.prototype
+Painter.prototype.drawDungeonTiles = function() {
+    var dungeon = dungeon.map;
+    for(var i = 0 ; i < dungeon.length ; ++i) {
+        for(var j = 0 ; j< dungeon[0].length ; ++j) {
+            //TODO
+        }
+    }
+}
 
 Painter.prototype.clearScreen = function() {
     game.context.clearRect(0,0,game.canvas.width,game.canvas.height);

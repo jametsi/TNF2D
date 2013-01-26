@@ -141,6 +141,14 @@ var entities = {
             case "hero":
                 game.context.fillStyle = 'rgb(255,0,0)';
                 game.context.fillRect(entity.x, entity.y, entity.width, entity.height);
+
+                // Debug-viiva kursorille
+                game.context.strokeStyle= 'rgb(0,0,255)';
+                game.context.beginPath();
+                game.context.moveTo(entity.x+entity.width/2,entity.y+entity.height/2);
+                game.context.lineTo(keyhandler.cursorX,keyhandler.cursorY);
+                game.context.closePath();
+                game.context.stroke();
         }
 
     }
@@ -152,6 +160,8 @@ var keyhandler = {
     down: false,
     left: false,
     right: false,
+    cursorX: 0,
+    cursorY: 0,
 
     init: function() {
         $(window).keydown(function(e) {
@@ -193,6 +203,10 @@ var keyhandler = {
                 e.preventDefault();
                 keyhandler.down = false;
             }
+        });
+        $(document).mousemove(function(e){
+            keyhandler.cursorX = e.pageX;
+            keyhandler.cursorY = e.pageY;
         });
     }
 }

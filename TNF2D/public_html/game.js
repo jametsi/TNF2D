@@ -54,6 +54,12 @@ var game = {
         $('#startscreen').show();
     },
     start: function() {
+        loader.init();
+        dungeon.generateLevel(10, 10);
+        dungeon.initImages();
+        dungeon.printArray();
+        console.log(dungeon.map);
+
         for (var entity in level.entities) {
             entities.create(level.entities[entity]);
         }
@@ -113,7 +119,7 @@ var game = {
 
 var level = {
     definition:{},
-    entities:[{type: "hero", x: 10, y: 10}]
+    entities:[  {type: "hero", x: 10, y: 10}]
 }
 
 var entities = {

@@ -52,20 +52,42 @@ var game = {
         game.canvas.width = window.innerWidth;
         game.painter = new Painter();
 
+        // Ladataan pelimusiikki
+        game.theme = loader.loadSound("snd/TNFI2D_theme");
+        game.theme.play();
         // Näytetään päämenu
         $('.gamelayer').hide();
         $('#startscreen').show();
     },
-
     playTutorial: function() {
         $('.gamelayer').fadeToggle(100, function() {
             $('#tutorialpage').fadeIn(100, function() {
                 $('#tutorialpage').click(function() {
+
+                    // Feidataan teemamusiikki pois
+                    $(game.theme).on('timeupdate', function () {
+                        var vol = 1,
+                            interval = 250;
+                        if (game.theme.volume == 1) {
+                            var intervalID = setInterval(function () {
+                                if (vol > 0) {
+                                    vol -= 0.02;
+                                    game.theme.volume = vol.toFixed(2);
+                                } else {
+                                    clearInterval(intervalID);
+                                }
+                            }, interval);
+                        }
+                    });
+
+                    // Feidataan tutoriaalisivu pois, ja startataan peli
                     $('#tutorialpage').fadeOut(100, game.start);
 
                 });
             });
         });
+
+
     },
 
     start: function() {
@@ -74,7 +96,7 @@ var game = {
         dungeon.initImages();
         game.hero = new Hero(dungeon.startPosition);
         dungeon.printArray();
-        console.log(dungeon.map);
+        //console.log(dungeon.map);
 
 /*        for (var entity in level.entities) {
             entities.create(level.entities[entity]);

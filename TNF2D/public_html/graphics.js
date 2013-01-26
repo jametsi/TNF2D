@@ -1,6 +1,6 @@
 function Painter(){
     this.camera = new Vector(Math.floor(game.canvas.width/2),Math.floor(game.canvas.height/2));
-    console.log(this.camera);
+  //  console.log(this.camera);
     this.MIN = new Vector(0,0);
     this.MAX = new Vector(0,0);
 }
@@ -18,7 +18,7 @@ Painter.prototype.draw = function() {
 Painter.prototype.updateDrawableLimits = function() {
 
     var half_x = game.canvas.width  / 2;
-    var half_y = game.canvas.width / 2;
+    var half_y = game.canvas.height / 2;
     this.MIN.x = Math.floor(game.hero.position.x - half_x);
     this.MAX.x = Math.ceil(game.hero.position.x + half_x);
     this.MIN.y = Math.floor(game.hero.position.y - half_y);

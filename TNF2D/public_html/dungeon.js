@@ -19,8 +19,8 @@ mapTile = function(type, x, y)  {
     this.type = type;
     this.x = x;
     this.y = y;
-    this.sizex = 200;
-    this.sizey = 200;
+    this.sizex = 400;
+    this.sizey = 400;
     this.image;
 
     this.determineImage = function() {
@@ -155,7 +155,7 @@ var dungeon = {
     },
 
     initImages: function() {
-        for(imagename in mapItemImageUrls) {
+        for(var imagename in mapItemImageUrls) {
             mapItemImages[imagename] = loader.loadImage(mapItemImageUrls[imagename]);
             console.log(mapItemImages[imagename]);
         }

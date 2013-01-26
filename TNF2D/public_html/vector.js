@@ -42,3 +42,9 @@ Vector.prototype.deltax = function(vector) {
 Vector.prototype.deltay = function(vector) {
     return this.y - vector.y;
 };
+
+Vector.prototype.angle = function(vector) {
+    var deltaX = vector.x - this.x;
+    var deltaY = vector.y - this.y;
+    return atan2(deltaY, deltaX) * 180 / PI;
+}

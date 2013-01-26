@@ -1,91 +1,161 @@
 var mapItems = {
-    EMPTY: 0,
-    FLOOR: 1,
-    WALL: 2,
-    PLAYER: 3,
-    VAMPIRE: 4,
-    DECORATION: 5,
-    ITEM: 6,
-    START: 7,
-    FINISH: 8
-}
-function generateDungeon(xsize, ysize) {
-    var visited = initVisitedArray(xsize * 2, ysize * 2);
-    var levelarray = generateLevelArray(xsize * 2, ysize * 2);
+    "EMPTY": 0,
+    "FLOOR": 1,
+    "WALL": 2,
+    "PLAYER": 3,
+    "VAMPIRE": 4,
+    "DECORATION": 5,
+    "ITEM": 6,
+    "START": 7,
+    "FINISH": 8,
+    "WHITE": 9
 }
 
-function initVisitedArray(xsize, ysize) {
-    var visited;
-    for (var j = 0; j < ysize; ++j) {
-        for (var i = 0; i < xsize; ++i) {
-            visited[i][j] = false;
-        }
-    }
-    return visited;
+mapTile = function(type, x, y)  {
+    this.TOPWALL = true;
+    this.BOTTOMWALL = true;
+    this.RIGHTWALL = true;
+    this.LEFTWALL = true;
+    this.type = type;
+    this.x = x;
+    this.y = y;
 }
 
-function generateLevelArray(xsize, ysize) {
-    var startx = 1;
-    var starty = Math.floor(Math.random() * ysize);
-    var finishx = xsize - 1;
-    var finishy = Math.floor(Math.random() * ysize);
 
-    var levelArray = new Array[xsize][ysize];
+var dungeon = {
 
-    levelArray[startx][starty] = mapItems[START];
-    levelArray[endx][endy] = mapItems[FINISH];
+    map: {},
+    totalcells: {},
+    initialvisits: 0,
 
-    generateLevel(levelArray, startx, starty);
-    
-    return levelArray;
-}
 
-function generateLevel(levelArray, x, y) {
+    generateLevel: function (xsize, ysize) {
+        var startx = 0;
+        var starty =  Math.floor(Math.random() * ysize - 1);
+        var finishx = xsize - 1;
+        var finishy = Math.floor(Math.random() * ysize - 1);
 
-    if(levelArray[x][y] != mapItems[START] || levelArray[x][y] != mapItems[FINISH]) {
-        levelArray[x][y] = mapItems[FLOOR];
-    }
-    var neighborghs = getUnivisitedNeighborghs(levelarray, x, y);
-    while(neighborghs.length > 0) {
-        var randomindex = Math.floor(Math.random() * neighborghs.length);
-        var nextnode = neighborghs[randomindex];
-        if(levelArray[nextnode.x, nextnode.y] != mapItems[FINISH]) {
-            generateLevel(levelArray, nextnode.x, nextnode.y);
-        }
-    }
-    
-}
+        dungeon.map = dungeon.initArray(xsize, ysize);
+        dungeon.totalcells = xsize*ysize;
 
-function getUnivisitedNeighborghs(levelarray, x, y) {
-    var neighborghs = [];
+        dungeon.map[startx][starty]= new mapTile(mapItems["START"], startx, starty);
+        dungeon.map[finishx][finishy] = new mapTile(mapItems["FINISH"], finishx, finishy);
 
-    for (var i = -1; i < 2; ++i) {
-        for (var j = -1; j < 2; ++j) {
-            if (x - i <= 1 || y - j <= 1 || x + i >= levelarray[0].length-1 || y + j >= levelarray.length-1 || (i == 0 && j == 0)) {
-                continue;
-            }
-            if (levelArray[i][j] === mapItems[EMPTY]) {
-                neighborghs.push(new Vector(i, j));
+        dungeon.printArray(dungeon.map);
+        dungeon.generateMazePaths(startx, starty);
+    },
+
+    initArray: function (xsize, ysize) {
+        var levelArray = new Array(xsize);
+        for (var i = 0; i < levelArray.length; ++i) {
+            levelArray[i] = new Array(ysize);
+            for (var j = 0; j < levelArray[i].length; ++j) {
+                levelArray[i][j] = new mapTile(mapItems["EMPTY"], i, j);
             }
         }
-    }
-    return neighborghs;
-}
+        return levelArray;
+    },
 
-function printArray(array) {
-    var line = "";
-    for (var j = 0; j < array.length; ++j) {
-        for (var i = 0; i < array[0].length; i++) {
-            line += array[i][j];
+    generateMazePaths: function(x, y) {
+        var current = dungeon.map[x][y];
+        console.log("current: " + x + " y " + y);
+        var stack = [];
+        dungeon.initialvisits = 1;
+
+        while(dungeon.initialvisits < dungeon.totalcells) {
+            var neighs = dungeon.findNeigh(current.x, current.y);
+            //   alert("neighs: " + neighs.length +  "current: " +  current.x, " , " + current.y);
+            if(neighs.length > 0) {
+                var randomindex = Math.floor(Math.random()*neighs.length);
+                var next_coords = neighs[randomindex];
+                var nextnode = dungeon.map[next_coords.x][next_coords.y];
+                dungeon.removeWall(current, nextnode);
+                stack.push(current);
+                current = nextnode;
+                if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
+                    current.type = mapItems["FLOOR"];
+                }
+                dungeon.initialvisits++;
+
+            }
+            else if (stack.length > 0) {
+                current = stack.pop();
+            }
         }
-        console.log(line);
-        line = "";
+    },
+
+    removeWall: function(cell, other) {
+        if(cell.x - other.x == -1) {
+            cell.RIGHTWALL = false;
+            other.LEFTWALL = false;
+        }
+        if(cell.x - other.x == 1) {
+            cell.LEFTWALL = false;
+            other.RIGHTWALL = false;
+        }
+        else if(cell.y - other.y == -1) {
+            cell.BOTTOMWALL = false;
+            other.TOPWALL = false;
+        }
+        else if(cell.y - other.y == 1) {
+            cell.TOPWALL = false;
+            other.BOTTOMWALL = false;
+        }
+
+    },
+
+    findNeigh: function(x, y) {
+        var neighs = [];
+        //    console.log("current x and y finding: ", x, " y: ", y);
+        if(dungeon.withinBoundaries(x-1, y) && (dungeon.map[x-1][y].type == mapItems["EMPTY"] || dungeon.map[x-1][y].type == mapItems["FINISH"])) {
+            neighs.push(new Vector(x-1, y));
+        }
+        if(dungeon.withinBoundaries(x+1, y) && (dungeon.map[x+1][y].type == mapItems["EMPTY"] || dungeon.map[x+1][y].type == mapItems["FINISH"])) {
+            neighs.push(new Vector(x+1, y));
+        }
+        if(dungeon.withinBoundaries(x, y-1) && (dungeon.map[x][y-1].type == mapItems["EMPTY"] || dungeon.map[x][y-1].type == mapItems["FINISH"])){
+            neighs.push(new Vector(x, y-1));
+        }
+        if(dungeon.withinBoundaries(x, y+1) && (dungeon.map[x][y+1].type == mapItems["EMPTY"] || dungeon.map[x][y+1].type == mapItems["FINISH"])) {
+            neighs.push(new Vector(x, y+1));
+        }
+        //   console.log("")
+        //   console.log("found " + neighs.length);
+        return neighs;
+    },
+
+    withinBoundaries: function(x, y) {
+        if(x < 0 || x > dungeon.map[0].length-1) {
+            return false;
+        }
+        if(y < 0 || y > dungeon.map[0].length-1) {
+            return false;
+        }
+        //    console.log("within");
+        return true;
+    },
+
+
+    printArray: function () {
+        var line = "";
+        for (var j = 0; j < dungeon.map.length; ++j) {
+            for (var i = 0; i < dungeon.map[0].length; i++) {
+                if(dungeon.map[i][j].type == mapItems["EMPTY"]) {
+                    line += '.';
+                }else if(dungeon.map[i][j].type == mapItems["FLOOR"]) {
+                    line += '-';
+                }
+                else {
+                    line += '*';
+                }
+            }
+            console.log(line);
+            line = "";
+        }
     }
 }
 
-var levelArray = generateLevel(50, 50);
 
-printArray(levelArray);
-
-
-
+dungeon.generateLevel(10, 10);
+dungeon.printArray();
+console.log(dungeon.map);

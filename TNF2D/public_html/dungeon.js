@@ -19,14 +19,76 @@ mapTile = function(type, x, y)  {
     this.type = type;
     this.x = x;
     this.y = y;
+    this.sizex = 200;
+    this.sizey = 200;
+    this.image;
+
+    this.determineImage = function() {
+        if(this.TOPWALL && this.BOTTOMWALL == false && this.RIGHTWALL == false && this.LEFTWALL == false) {
+            this.image = mapItemImages["TOP"];
+        }
+        else if(this.TOPWALL == false && this.BOTTOMWALL && this.RIGHTWALL == false && this.LEFTWALL == false) {
+            this.image = mapItemImages["BOTTOM"];
+        }
+        else if(this.TOPWALL && this.BOTTOMWALL && this.RIGHTWALL == false && this.LEFTWALL == false) {
+            this.image = mapItemImages["TOP_BOTTOM"];
+        }
+        else if(this.TOPWALL == false && this.BOTTOMWALL == false&& this.RIGHTWALL == false && this.LEFTWALL) {
+            this.image = mapItemImages["LEFT"];
+        }
+        else if(this.TOPWALL == false && this.BOTTOMWALL== false && this.RIGHTWALL && this.LEFTWALL == false) {
+            this.image = mapItemImages["RIGHT"];
+        }
+        else if(this.TOPWALL == false && this.BOTTOMWALL== false && this.RIGHTWALL && this.LEFTWALL) {
+            this.image = mapItemImages["LEFT_RIGHT"];
+        }
+        else if(this.TOPWALL == false && this.BOTTOMWALL && this.RIGHTWALL && this.LEFTWALL ) {
+            this.image = mapItemImages["LEFT_BOTTOM_RIGHT"];
+        }
+        else if(this.TOPWALL && this.BOTTOMWALL == false&& this.RIGHTWALL && this.LEFTWALL ) {
+            this.image = mapItemImages["TOP_LEFT_RIGHT"];
+        }
+        else if(this.TOPWALL && this.BOTTOMWALL  && this.RIGHTWALL && this.LEFTWALL== false ) {
+            this.image = mapItemImages["TOP_RIGHT_BOTTOM"];
+        }
+        else if(this.TOPWALL && this.BOTTOMWALL  && this.RIGHTWALL == false && this.LEFTWALL ) {
+            this.image = mapItemImages["TOP_LEFT_BOTTOM"];
+        }
+        else {
+            this.image =mapItemImages["EMPTY"];
+        }
+    }
+
+
+    this.draw = function(drawx, drawy) {
+        game.context.drawImage(this.image, drawx, drawy, 200, 200);
+    }
+
 }
 
+var mapItemImageUrls = {
+    "TOP"               : "img/wall_top.png",
+    "BOTTOM"            : "img/wall_bottom.png",
+    "TOP_BOTTOM"        : 'img/wall_top_bottom.png',
+    "LEFT"              : 'img/wall_left.png',
+    "RIGHT"             : 'img/wall_right.png',
+    "LEFT_RIGHT"        : 'img/wall_left_right.png',
+    "LEFT_BOTTOM_RIGHT" : 'img/wall_left_bottom_right.png',
+    "TOP_LEFT_RIGHT"    : 'img/wall_top_left_right.png',
+    "TOP_RIGHT_BOTTOM"  : 'img/wall_top_right_bottom.png',
+    "TOP_LEFT_BOTTOM"   : 'img/wall_top_left_bottom.png',
+    "EMPTY"             : 'img/wall_fail.png'
+
+}
+
+var mapItemImages = {}
 
 var dungeon = {
 
     map: {},
     totalcells: {},
     initialvisits: 0,
+    startPosition: {},
 
 
     generateLevel: function (xsize, ysize) {
@@ -35,12 +97,16 @@ var dungeon = {
         var finishx = xsize - 1;
         var finishy = Math.floor(Math.random() * ysize - 1);
 
+
+
         dungeon.map = dungeon.initArray(xsize, ysize);
         dungeon.totalcells = xsize*ysize;
 
         dungeon.map[startx][starty]= new mapTile(mapItems["START"], startx, starty);
         dungeon.map[finishx][finishy] = new mapTile(mapItems["FINISH"], finishx, finishy);
+        var tilesize = dungeon.map[startx][starty].sizex;
 
+        dungeon.startPosition = new Vector(startx*tilesize+(tilesize/2), starty*tilesize+(tilesize/2));
         dungeon.printArray(dungeon.map);
         dungeon.generateMazePaths(startx, starty);
     },
@@ -80,6 +146,18 @@ var dungeon = {
             }
             else if (stack.length > 0) {
                 current = stack.pop();
+            }
+        }
+    },
+
+    initImages: function() {
+        for(imagename in mapItemImageUrls) {
+            mapItemImages[imagename] = loader.loadImage(mapItemImageUrls[imagename]);
+            console.log(mapItemImages[imagename]);
+        }
+        for(var i = 0 ; i < dungeon.map[0].length; ++i) {
+            for(var j = 0 ; j < dungeon.map.length; ++j) {
+                dungeon.map[i][j].determineImage();
             }
         }
     },
@@ -136,10 +214,30 @@ var dungeon = {
     },
 
     draw: function() {
-
+        for(var i = 0 ; i < dungeon.map.length ; ++i) {
+            for(var j = 0 ; j < dungeon.map[0].length; ++j) {
+                var current = dungeon.map[i][j];
+                var drawx = current.x * current.sizex - game.camera.x;
+                var drawy = current.y * current.sizey - game.camera.y;
+                if(dungeon.withinDrawBoundaries(drawx, drawy)) {
+                    current.draw(drawx, drawy);
+                }
+            }
+        }
     },
 
+    withinDrawBoundaries: function(x, y) {
 
+        return (xbounds(x) && ybounds(y))
+
+        function xbounds(x) {
+            return (x >= game.DRAW_MIN.x && x<= game.DRAW_MAX.x);
+        }
+
+        function ybounds(y) {
+            return (y >= game.DRAW_MIN.y && x<= game.DRAW_MAX.y);
+        }
+    },
     printArray: function () {
         var line = "";
         for (var j = 0; j < dungeon.map.length; ++j) {
@@ -160,6 +258,4 @@ var dungeon = {
 }
 
 
-dungeon.generateLevel(10, 10);
-dungeon.printArray();
-console.log(dungeon.map);
+

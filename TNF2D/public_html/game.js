@@ -68,18 +68,22 @@ var game = {
     },
 
     step: function() {
-        if (keyhandler.down) {
-            game.entities[0].y++;
-        }
+
         if (keyhandler.up) {
-            game.entities[0].y--;
+
+            game.hero.walking = true;
+
+            var dx = game.hero.x - keyhandler.cursorX;
+            var dy = game.hero.y - keyhandler.cursorY;
+            game.hero.angle = Math.atan2(dy, dx)*(180/Math.PI);
+            game.hero.x += Math.cos(game.hero.angle*(Math.PI/180))*-game.hero.walkSpeed;
+            game.hero.y += Math.sin(game.hero.angle*(Math.PI/180))*-game.hero.walkSpeed;
+
         }
-        if (keyhandler.left) {
-            game.entities[0].x--;
+        else {
+            game.hero.walking = false;
         }
-        if (keyhandler.right) {
-            game.entities[0].x++;
-        }
+
     },
     animate: function() {
 
@@ -97,6 +101,9 @@ var game = {
         }
     },
     drawAllEntities: function() {
+        // Piirretään pelaaja
+        entities.draw(game.hero);
+
         for (var entity in game.entities) {
             entities.draw(game.entities[entity]);
         }
@@ -113,8 +120,9 @@ var entities = {
         "hero": {
             name: "blank",
             type: "hero",
-            width:10,
-            height:10
+            width:100,
+            height:100,
+            walkSpeed: 1.3
         }
     },
     create: function(entity) {
@@ -125,22 +133,35 @@ var entities = {
             return;
         }
 
-
         switch(entity.type) {
             case "hero":
-                console.log(entity);
                 entity.width = definition.width;
                 entity.height = definition.height;
-                //entity.sprite = loader.loadImage("img/hero.png");
-                game.entities.push(entity);
+                entity.walkSpeed = definition.walkSpeed;
+                entity.sprite = loader.loadImage("img/herosheet.png");
+                game.hero = entity;
         }
     },
     draw: function(entity) {
 
         switch(entity.type) {
             case "hero":
+                game.context.translate(entity.x+entity.width/2, entity.y+entity.height/2);
+                game.context.rotate(entity.angle);
+
                 game.context.fillStyle = 'rgb(255,0,0)';
-                game.context.fillRect(entity.x, entity.y, entity.width, entity.height);
+                game.context.drawImage(entity.sprite, 0, 0, 100, 100, 0-entity.width/2, 0-entity.height/2, entity.width, entity.height);
+
+                game.context.rotate(-entity.angle);
+                game.context.translate(-(entity.x+entity.width/2), -(entity.y+entity.height/2));
+
+                // Debug-viiva kursorille
+                game.context.strokeStyle= 'rgb(0,0,255)';
+                game.context.beginPath();
+                game.context.moveTo(entity.x+entity.width/2,entity.y+entity.height/2);
+                game.context.lineTo(keyhandler.cursorX,keyhandler.cursorY);
+                game.context.closePath();
+                game.context.stroke();
         }
 
     }
@@ -152,24 +173,26 @@ var keyhandler = {
     down: false,
     left: false,
     right: false,
+    cursorX: 0,
+    cursorY: 0,
 
     init: function() {
         $(window).keydown(function(e) {
             var code = e.keyCode;
             //    console.log(code);
-            if(code == 37) { // Vasen
+            if(code == 37 || code == 65) { // Vasen
                 e.preventDefault();
                 keyhandler.left = true;
             }
-            if(code == 39) { // Oikea
+            if(code == 39 || code == 68) { // Oikea
                 e.preventDefault();
                 keyhandler.right = true;
             }
-            if(code == 38) { // Ylös
+            if(code == 38 || code == 87) { // Ylös
                 e.preventDefault();
                 keyhandler.up = true;
             }
-            if(code == 40) { // Alas
+            if(code == 40 || code == 83) { // Alas
                 e.preventDefault();
                 keyhandler.down = true;
             }
@@ -177,22 +200,26 @@ var keyhandler = {
         $(window).keyup(function(e) {
             var code = e.keyCode;
             //    console.log(code);
-            if(code == 37) { // Vasen
+            if(code == 37 || code == 65) { // Vasen
                 e.preventDefault();
                 keyhandler.left = false;
             }
-            if(code == 39) { // Oikea
+            if(code == 39 || code == 68) { // Oikea
                 e.preventDefault();
                 keyhandler.right = false;
             }
-            if(code == 38) { // Ylös
+            if(code == 38 || code == 87) { // Ylös
                 e.preventDefault();
                 keyhandler.up = false;
             }
-            if(code == 40) { // Alas
+            if(code == 40 || code == 83) { // Alas
                 e.preventDefault();
                 keyhandler.down = false;
             }
+        });
+        $(document).mousemove(function(e){
+            keyhandler.cursorX = e.pageX;
+            keyhandler.cursorY = e.pageY;
         });
     }
 }

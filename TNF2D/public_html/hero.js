@@ -6,7 +6,7 @@ function Hero(startVector) {
     this.height = 100;
     this.angle = 0;
     this.sprite = loader.loadImage("img/herosheet.png");
-    console.log(this.sprite);
+    //console.log(this.sprite);
 
 }
 
@@ -21,7 +21,7 @@ Hero.prototype.turn = function() {
     var dx = keyhandler.cursorX - game.canvas.width/2;
     var dy = keyhandler.cursorY - game.canvas.height/2;
     var newAngle = -(Math.atan2(dy, dx)*(180/Math.PI));
-    console.log(newAngle);
+    //console.log(newAngle);
 
     if(newAngle > this.angle % 360) {
         this.turnRight();
@@ -42,6 +42,35 @@ Hero.prototype.turnLeft = function() {
 
 
 Hero.prototype.move = function() {
-    this.position.x += Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
-    this.position.y += Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+    var x = Math.floor(this.position.x/400);
+    var y = Math.floor(this.position.y/400);
+
+    var positionX = this.position.x/400-(Math.floor(this.position.x/400));
+    var positionY = this.position.y/400-(Math.floor(this.position.y/400));
+
+    var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+    var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+
+    if (xMovement > 0) {
+        if(dungeon.map[x][y].RIGHTWALL && positionX > .64) {
+            xMovement = 0;
+        }
+    }
+    if (xMovement < 0) {
+        if(dungeon.map[x][y].LEFTWALL && positionX < .36) {
+            xMovement = 0;
+        }
+    }
+    if (yMovement > 0) {
+        if(dungeon.map[x][y].TOPWALL && positionY > .64) {
+            yMovement = 0;
+        }
+    }
+    if (yMovement < 0) {
+        if(dungeon.map[x][y].BOTTOMWALL && positionY < .36) {
+            yMovement = 0;
+        }
+    }
+    this.position.x += xMovement;
+    this.position.y += yMovement;
 }

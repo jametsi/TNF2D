@@ -60,8 +60,8 @@ var game = {
         $('#startscreen').show();
     },
     playTutorial: function() {
-        $('.gamelayer').fadeToggle(4000, function() {
-            $('#tutorialpage').fadeIn(4000, function() {
+        $('.gamelayer').fadeToggle(100, function() {
+            $('#tutorialpage').fadeIn(100, function() {
                 $('#tutorialpage').click(function() {
 
                     // Feidataan teemamusiikki pois
@@ -81,7 +81,7 @@ var game = {
                     });
 
                     // Feidataan tutoriaalisivu pois, ja startataan peli
-                    $('#tutorialpage').fadeOut(10000, game.start);
+                    $('#tutorialpage').fadeOut(100, game.start);
 
                 });
             });
@@ -96,7 +96,7 @@ var game = {
         dungeon.initImages();
         game.hero = new Hero(dungeon.startPosition);
         dungeon.printArray();
-        console.log(dungeon.map);
+        //console.log(dungeon.map);
 
 /*        for (var entity in level.entities) {
             entities.create(level.entities[entity]);

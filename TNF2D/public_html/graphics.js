@@ -1,18 +1,41 @@
 function Painter(){
     this.camera = new Vector(Math.floor(game.canvas.width/2),Math.floor(game.canvas.height/2));
-  //  console.log(this.camera);
+    //  console.log(this.camera);
     this.MIN = new Vector(0,0);
     this.MAX = new Vector(0,0);
+    this.counter = 0;
+    this.animcount = 10;
+    this.flashLightImage = new Image();
+    this.flashLightImage.src = 'img/flashlight.png';
 }
 
 Painter.prototype.draw = function() {
     this.clearScreen();
     //  this.updateCameraPosition();
     this.updateDrawableLimits();
-
     this.drawDungeonTiles();
     this.drawHero();
+    this.drawFlashLight();
     // this.drawTiles();
+}
+
+Painter.prototype.drawFlashLight = function() {
+    var clip_offset_x = game.hero.lastAnimFrame*game.hero.spritewidth;
+    var translatepaskex = this.camera.x;
+    var translatepaskey = this.camera.y;
+
+    var height = this.flashLightImage.height;
+    var width = this.flashLightImage.width;
+
+    game.overlay.globalCompositeOperation = "lighter";
+    game.overlay.globalAlpha = 0.5;
+    game.overlay.translate(translatepaskex, translatepaskey);
+    game.overlay.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
+    game.overlay.drawImage(this.flashLightImage, -100, -220, width, height);
+    game.overlay.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
+    game.overlay.translate(-(translatepaskex), -(translatepaskey));
+    game.overlay.globalAlpha = 1.0;
+
 }
 
 Painter.prototype.updateDrawableLimits = function() {
@@ -110,14 +133,21 @@ Painter.prototype.updateMinimumDrawAreas = function() {
 
 Painter.prototype.drawHero = function() {
 
+    var clip_offset_x = game.hero.lastAnimFrame*game.hero.spritewidth;
     var translatepaskex = this.camera.x;
     var translatepaskey = this.camera.y;
 
     game.context.translate(translatepaskex, translatepaskey);
     game.context.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
-    game.context.drawImage(game.hero.sprite, 0, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
+    game.context.drawImage(game.hero.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
     game.context.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.context.translate(-(translatepaskex), -(translatepaskey));
+    if(this.counter == this.animcount) {
+        game.hero.changeFrame();
+        this.counter = 1;
+    } else {
+        this.counter++;
+    }
 
     // Debug-viiva kursorille
     game.context.strokeStyle= 'rgb(0,0,255)';

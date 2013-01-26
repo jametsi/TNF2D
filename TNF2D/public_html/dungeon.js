@@ -62,6 +62,10 @@ mapTile = function(type, x, y)  {
 
     this.draw = function(drawx, drawy) {
         game.context.drawImage(this.image, drawx, drawy, 200, 200);
+    },
+
+    this.getPosition = function() {
+        return new Vector(this.x*this.sizex, this.y*this.sizey);
     }
 
 }

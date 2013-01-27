@@ -139,9 +139,11 @@ Painter.prototype.drawHero = function() {
     var translatepaskey = this.camera.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
+    var turnangle = game.hero.angle * Math.PI / 180;
+    var piHalf = + Math.PI/2
+    game.context.rotate(-turnangle + piHalf);
     game.context.drawImage(game.hero.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
-    game.context.rotate(game.hero.angle * Math.PI / 180 - Math.PI/2);
+    game.context.rotate(turnangle - piHalf);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     if(this.counter == this.animcount) {
@@ -246,9 +248,10 @@ Painter.prototype.drawVampire = function(vampire) {
     var translatepaskey = drawPos.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(-vampire.angle * Math.PI / 180 + Math.PI);
+    var turnangle = vampire.angle * Math.PI / 180 + Math.PI;
+    game.context.rotate(-turnangle);
     game.context.drawImage(game.vampires.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.vampires.width, game.vampires.height);
-    game.context.rotate(vampire.angle* Math.PI / 180 + Math.PI);
+    game.context.rotate(turnangle);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     // if(this.counter == this.animcount) {

@@ -52,15 +52,11 @@ var game = {
         game.overlaycanvas = $('#overlaycanvas')[0];
         game.context = game.canvas.getContext('2d');
         game.overlay = game.canvas.getContext('2d');
-        game.wallcanvas = $('#wallcanvas')[0];
-        game.wallcontext  = game.wallcanvas.getContext('2d');
 
         game.canvas.height = window.innerHeight;
         game.canvas.width = window.innerWidth;
         game.overlay.height = window.innerHeight;
         game.overlay.width = window.innerWidth;
-        game.wallcanvas.height = window.innerHeight;
-        game.wallcanvas.width = window.innerWidth;
 
 
         // Ladataan pelimusiikki
@@ -120,7 +116,6 @@ var game = {
         // Näytetään pelicanvas ja startataan animaatio
         $('.gamelayer').hide();
         $('#gamecanvas').show();
-        $('#wallcanvas').show();
         game.animate();
     },
 

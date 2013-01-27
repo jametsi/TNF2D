@@ -58,19 +58,6 @@ Hero.prototype.getTile = function() {
 }
 
 Hero.prototype.move = function() {
-
-    if (game.wallcontext)
-
-    var imgd = game.wallcontext.getImageData(this.position.x, this.position.y, 1, 1);
-    var pix = imgd.data;
-    if (pix[0+3] == 0) {
-        console.log("OLLAAN SEINÄSSÄ!");
-    }
-    else {
-        this.outOfRoad = false;
-    }
-
-
     var x = Math.floor(this.position.x/400);
     var y = Math.floor(this.position.y/400);
 
@@ -80,7 +67,7 @@ Hero.prototype.move = function() {
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 
-    /*if (dungeon.map[x][y].LEFTWALL) {
+    if (dungeon.map[x][y].LEFTWALL) {
         if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
             xMovement = 0;
         }
@@ -130,7 +117,7 @@ Hero.prototype.move = function() {
             xMovement = 0;
             yMovement = 0;
         }
-    }*/
+    }
 
 
     this.position.x += xMovement;

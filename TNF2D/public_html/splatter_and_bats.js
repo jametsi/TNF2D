@@ -10,11 +10,10 @@ function Splatter(x, y) {
     this.x = x;
     this.y = y;
     this.position = new Vector(x,y);
-    this.lifetime = 360;
+    this.lifetime = 720;
     this.counter = 0;
     this.lastAnimFrame = 0;
     this.spritewidth = 50;
-    this.size = 5 + Math.random()*10 ;
     this.alive = true;
     this.color = 'rgba(255,0,0,)';
 }
@@ -41,10 +40,16 @@ function Bat(x, y) {
     this.x = x;
     this.y = y;
     this.position = new Vector(x,y);
-    this.lifetime = 400;
+    this.lifetime = 1020;
+    this.animcounter = 0;
     this.counter = 0;
-    this.size; 50;
+    this.size = 50;
     this.alive = true;
+    this.sprite = loader.loadImage("img/lepakko_ph.png");
+    this.spritewidth = 80;
+    this.spriteheight = 50;
+    this.lastAnimFrame = 0;
+    this.angle = Math.random() * 360 - 180;
 }
 
 Bat.prototype.update = function() {
@@ -53,10 +58,24 @@ Bat.prototype.update = function() {
         this.counter++;
     } else {
         this.alive = false;
+        console.log("dead");
     }
     if(this.alive) {
-        if(this.counter > 0 && this.counter % 120 ) {
+        if(this.animcounter > 0 && this.counter % 120 ) {
             this.lastAnimFrame++;
+
+            if(this.lastAnimFrame == 3) {
+                this.lastAnimFrame = 0;
+            }
         }
+        this.angle += Math.random()*15 -7.5;
+        this.position.x += Math.cos(this.angle * (Math.PI / 180)) * (Math.random()*2);
+        this.position.y += Math.sin(this.angle * (Math.PI / 180)) * (Math.random()*2);
+
+
     }
+}
+
+Bat.prototype.getSizeModifier = function() {
+    return ( 1.0 + Math.round((this.counter / this.lifetime)*10)/10);
 }

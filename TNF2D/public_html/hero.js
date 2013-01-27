@@ -67,6 +67,12 @@ Hero.prototype.move = function() {
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 
+    if(dungeon.map[x][y].type==mapItems["FINISH"]) {
+        if(positionX+xMovement >= 320 && (positionY+yMovement >= 125 && positionY+yMovement <= 275)) {
+            game.ended = true;
+        }
+    }
+
     if (dungeon.map[x][y].LEFTWALL) {
         if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
             xMovement = 0;

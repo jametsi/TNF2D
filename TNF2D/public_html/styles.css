@@ -51,8 +51,8 @@ body, html {
 #startscreen {
     position: relative;
     width: 500px;
-    height: 400px;
-    top: 250px;
+    height: 120px;
+    top: 380px;
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(0,0,0,0.6);
@@ -79,3 +79,4 @@ body, html {
     color: white;
     padding-top: 100px;
 }
+

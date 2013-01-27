@@ -59,7 +59,6 @@ Bat.prototype.update = function() {
         this.counter++;
     } else {
         this.alive = false;
-        console.log("dead");
     }
     if(this.alive) {
         if(this.animcounter > 0 && this.counter % 240 ) {

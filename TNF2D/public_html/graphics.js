@@ -8,6 +8,9 @@ function Painter(){
     this.flashLightImage = new Image();
     this.flashLightImage.src = 'img/valokeila.png';
 
+    this.widthInTiles = (game.canvas.width/400)/2+1;
+    this.heightInTiles = (game.canvas.height/400)/2+1;
+
     this.spotlight = new spotlight({
         steps: 1,
         size: 200,
@@ -63,48 +66,22 @@ Painter.prototype.vectorWithinBounds = function(vector) {
     return this.xbounds(vector.x) && this.ybounds(vector.y)
 };
 
-Painter.prototype.xbounds = function(x, modifier) {
-    if (typeof modifier === 'undefined') {
-        modifier = 1;
-        if (x >= this.MIN.x && x <= this.MAX.x) {
-            return true;
-        }
-        return false;
-    }
-    if (x >= this.MIN.x + (1 / modifier) * this.MIN.y && x <= this.MAX.x * modifier) {
-        return true;
-    }
-};
+Painter.prototype.tileWithinBounds = function(maptile) {
+    var posvec = game.hero.getTile();
 
-Painter.prototype.ybounds = function(y, modifier) {
-    if (typeof modifier === 'undefined') {
-        if (y >= this.MIN.y && y <= this.MAX.y) {
-            return true;
-        }
-        return false;
-    }
-    if (y >= this.MIN.y + (1 / modifier) * this.MIN.y && y <= this.MAX.y * modifier) {
-        return true;
-    }
-    return false;
-};
+    var retx = false;
+    var rety = false;
 
-Painter.prototype.tileWithinBounds = function(maptile) {/*
- var x = false, y = false;
- var position = new Vector(maptile.x + maptile.sizex/2, maptile.y + maptile.sizey/2)
- if (this.vectorWithinBounds(position)) {
- x = true;
- y = true;
- }
- else if (this.xbounds(position.x - maptile.sizex) || this.xbounds(position.x )) {
- x = true;
- }
- if (x && (this.ybounds(position.y - maptile.sizey) || this.xbounds(position.y))) { // <--- xbounds tässä????
- y = true;
- }
- return x && y;*/
-    return true;
-};
+    if(posvec.x-this.widthInTiles < maptile.x && maptile.x < posvec.x+this.widthInTiles) {
+        retx = true;
+    }
+
+    if(posvec.y-this.heightInTiles < maptile.y && maptile.y < posvec.y+this.heightInTiles) {
+        rety = true;
+    }
+
+    return retx && rety;
+}
 
 Painter.prototype.updateCameraPosition = function() {
     updateDrawableLimit();

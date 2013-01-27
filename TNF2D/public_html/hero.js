@@ -59,8 +59,6 @@ Hero.prototype.move = function() {
 
     var positionX = Math.floor((this.position.x/400-(Math.floor(this.position.x/400)))*400);
     var positionY = Math.floor((this.position.y/400-(Math.floor(this.position.y/400)))*400);
-  //  console.log("Position X: "+positionX+"    Position Y: "+positionY);
-  //  console.log(dungeon.map[x][y]);
 
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
@@ -68,6 +66,9 @@ Hero.prototype.move = function() {
     if (dungeon.map[x][y].LEFTWALL) {
         if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
             xMovement = 0;
+        }
+        if(positionY+yMovement <= 0 && positionY+yMovement >= 400) {
+            tMovement = 0;
         }
     }
     if (dungeon.map[x][y].RIGHTWALL) {
@@ -82,6 +83,34 @@ Hero.prototype.move = function() {
     }
     if (dungeon.map[x][y].BOTTOMWALL) {
         if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].RIGHTWALL) {
+        if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
+            xMovement = 0;
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].LEFTWALL) {
+        if((positionX+xMovement >= 340 && positionX+xMovement <= 400) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
+            xMovement = 0;
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].TOPWALL  && dungeon.map[x][y].LEFTWALL) {
+        if((positionX+xMovement >= 340 && positionX+xMovement <= 400) && (positionY+yMovement >= 340 && positionY+yMovement <= 400)) {
+            xMovement = 0;
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].TOPWALL  && dungeon.map[x][y].RIGHTWALL) {
+        if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 340 && positionY+yMovement <= 400)) {
+            xMovement = 0;
             yMovement = 0;
         }
     }

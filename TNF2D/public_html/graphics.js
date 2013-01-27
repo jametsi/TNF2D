@@ -147,7 +147,9 @@ Painter.prototype.drawHero = function() {
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     if(this.counter == this.animcount) {
-        game.hero.changeFrame();
+        if(game.hero.walking) {
+            game.hero.changeFrame();
+        }
         this.counter = 1;
     } else {
         this.counter++;
@@ -161,18 +163,19 @@ Painter.prototype.drawHero = function() {
     game.context.closePath();
     game.context.stroke();
 
-    game.context.beginPath();
-    game.context.arc(translatepaskex,translatepaskey, 10, 2 * Math.PI, false);
-    game.context.closePath();
-    game.context.fillStyle = 'rgb(255,0,0)';
-    game.context.fill();
+    // DEBUG-ympyrätranslate-paskalle
+    /*    game.context.beginPath();
+     game.context.arc(translatepaskex,translatepaskey, 10, 2 * Math.PI, false);
+     game.context.closePath();
+     game.context.fillStyle = 'rgb(255,0,0)';
+     game.context.fill();*/
 }
 
 Painter.prototype.drawVampires = function() {
     for(var vampire in game.vampires.list) {
-      //  if(this.vectorWithinBounds(game.vampires.list[vampire].position)) {
-            this.drawVampire(game.vampires.list[vampire]);
-      //  }
+        //  if(this.vectorWithinBounds(game.vampires.list[vampire].position)) {
+        this.drawVampire(game.vampires.list[vampire]);
+        //  }
     }
 }
 

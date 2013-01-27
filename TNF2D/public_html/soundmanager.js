@@ -4,6 +4,8 @@ function SoundManager() {
     this.theme.loop = true;
     this.theme.play();
 
+    this.playerDead = loader.loadSound("audio/playerdead1");
+
     this.growls = [];
     for (var i = 1; i<5; i++) {
         this.growls.push(loader.loadSound("audio/vampirelurk"+i));

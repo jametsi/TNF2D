@@ -135,7 +135,10 @@ var game = {
 
         if (game.ended) {
             $('.gamelayer').hide();
-            $('#endingscreen').fadeIn(300);
+            $('#endingscreen').fadeIn(300, function() {
+                $('#endingscreen').css("width", "100%");
+                $('#endingscreen').css("height", "100%");
+            });
         }
         else {
             game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);

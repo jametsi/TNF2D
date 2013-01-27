@@ -56,32 +56,36 @@ Hero.prototype.move = function() {
     var x = Math.floor(this.position.x/400);
     var y = Math.floor(this.position.y/400);
 
-    var positionX = this.position.x/400-(Math.floor(this.position.x/400));
-    var positionY = this.position.y/400-(Math.floor(this.position.y/400));
+    var positionX = Math.floor((this.position.x/400-(Math.floor(this.position.x/400)))*400);
+    var positionY = Math.floor((this.position.y/400-(Math.floor(this.position.y/400)))*400);
+    console.log("Position X: "+positionX+"    Position Y: "+positionY);
+    console.log(dungeon.map[x][y]);
 
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 
-    if (xMovement > 0) {
-        if(dungeon.map[x][y].RIGHTWALL && positionX > .64) {
+    if (dungeon.map[x][y].LEFTWALL) {
+        if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
             xMovement = 0;
         }
     }
-    if (xMovement < 0) {
-        if(dungeon.map[x][y].LEFTWALL && positionX < .36) {
+    if (dungeon.map[x][y].RIGHTWALL) {
+        if (positionX+xMovement >= 340 && positionX+xMovement <= 400) {
             xMovement = 0;
         }
     }
-    if (yMovement > 0) {
-        if(dungeon.map[x][y].TOPWALL && positionY > .64) {
+    if (dungeon.map[x][y].TOPWALL) {
+        if (positionY+yMovement <= 60 && positionY+yMovement >= 0) {
             yMovement = 0;
         }
     }
-    if (yMovement < 0) {
-        if(dungeon.map[x][y].BOTTOMWALL && positionY < .36) {
+    if (dungeon.map[x][y].BOTTOMWALL) {
+        if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
             yMovement = 0;
         }
     }
+
+
     this.position.x += xMovement;
     this.position.y += yMovement;
 }

@@ -7,6 +7,8 @@ function Painter(){
     this.animcount = 20;
     this.flashLightImage = new Image();
     this.flashLightImage.src = 'img/valokeila.png';
+    this.splatters = [];
+    this.MAX_SPLATTER = 30;
 
     this.widthInTiles = (game.canvas.width/400)/2+1;
     this.heightInTiles = (game.canvas.height/400)/2+1;
@@ -24,6 +26,7 @@ Painter.prototype.draw = function() {
     this.updateDrawableLimits();
     this.drawDungeonTiles();
     this.drawHero();
+    this.drawSplatters();
     this.drawVampires();
     this.drawFlashLight();
     // this.drawTiles();
@@ -159,9 +162,40 @@ Painter.prototype.drawHero = function() {
 
 Painter.prototype.drawVampires = function() {
     for(var vampire in game.vampires.list) {
+
+        var distance = game.vampires.list[vampire].position.subtract(game.hero.position).length();
+        if( distance <= 30){
+            this.addSplatter(game.vampires.list[vampire]);
+        }
         //  if(this.vectorWithinBounds(game.vampires.list[vampire].position)) {
         this.drawVampire(game.vampires.list[vampire]);
         //  }
+    }
+}
+
+Painter.prototype.addSplatter = function(vampire) {
+
+    if (this.splatters.length < this.MAX_SPLATTER && this.counter <= this.animcount/4) {
+        var objectpos = game.hero.position;
+        var rnd_x = Math.random()*80-40;
+        var rnd_y = Math.random()*80-40;
+        this.splatters.push(new Splatter(objectpos.x+rnd_x, objectpos.y+rnd_y));
+
+    }
+}
+Painter.prototype.drawSplatters = function() {
+    for (var i in this.splatters) {
+        var position = this.splatters[i].position.subtract(this.MIN);
+        game.context.beginPath();
+        game.context.arc(position.x, position.y, this.splatters[i].getSize(), 2 * Math.PI, false);
+        game.context.closePath();
+        game.context.fillStyle = this.splatters[i].getColor();
+        game.context.fill();
+        this.splatters[i].update();
+    }
+
+    while (this.splatters.length > 0 && !this.splatters[0].alive) {
+        this.splatters.shift();
     }
 }
 

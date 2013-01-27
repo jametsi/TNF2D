@@ -29,13 +29,14 @@ Hero.prototype.turn = function() {
     var dy = keyhandler.cursorY - game.canvas.height/2;
     var newAngle = -(Math.atan2(dy, dx)*(180/Math.PI));
     //console.log(newAngle);
-
+    /*
     if(newAngle > this.angle % 360) {
         this.turnRight();
     }
     else if(newAngle < this.angle % 360) {
         this.turnLeft();
-    }
+    }*/
+    this.angle = newAngle;
 }
 
 Hero.prototype.turnRight = function() {
@@ -79,12 +80,12 @@ Hero.prototype.move = function() {
         }
     }
     if (yMovement > 0) {
-        if(dungeon.map[x][y].TOPWALL && positionY > .64) {
+        if(dungeon.map[x][y].BOTTOMWALL && positionY > .64) {
             yMovement = 0;
         }
     }
     if (yMovement < 0) {
-        if(dungeon.map[x][y].LEFTWALL && positionY < .36) {
+        if(dungeon.map[x][y].TOPWALL && positionY < .36) {
             yMovement = 0;
         }
     }

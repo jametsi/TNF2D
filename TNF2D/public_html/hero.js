@@ -81,7 +81,7 @@ Hero.prototype.move = function() {
     for(var i = 0 ; i < game.vampires.list.length ; ++i ) {
         var vampire = game.vampires.list[i]; {
             var flashlight = new Vector(positionX+flashLightX, positionY+flashLightY);
-            if(flashlight.distance(vampire.position) <= 50*50) {
+            if(vampire.position.subtract(flashlight).squaredLength() <= 50*50) {
                 game.soundManager.playSnare();
                 vampire.flashed = true;
                 console.log("FLASHED!");

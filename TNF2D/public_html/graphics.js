@@ -175,7 +175,7 @@ Painter.prototype.drawVampires = function() {
     for(var vampire in game.vampires.list) {
 
         var distance = game.vampires.list[vampire].position.subtract(game.hero.position).length();
-        if( distance <= 30){
+        if( distance <= 55){
             game.hero.takeDamage();
             this.addSplatter(game.vampires.list[vampire]);
         }

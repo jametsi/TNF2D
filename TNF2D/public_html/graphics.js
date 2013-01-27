@@ -146,12 +146,12 @@ Painter.prototype.drawHero = function() {
     }
 
     // Debug-viiva kursorille
-    game.context.strokeStyle= 'rgb(0,0,255)';
+/*    game.context.strokeStyle= 'rgb(0,0,255)';
     game.context.beginPath();
     game.context.moveTo(this.camera.x,this.camera.y);
     game.context.lineTo(keyhandler.cursorX,keyhandler.cursorY);
     game.context.closePath();
-    game.context.stroke();
+    game.context.stroke();*/
 
     // DEBUG-ympyrätranslate-paskalle
     /*    game.context.beginPath();

@@ -172,8 +172,10 @@ var dungeon = {
                 if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
                     current.type = mapItems["FLOOR"];
                     if(Math.random() > AMOUNT_OF_VAMPIRES) {
-                        current.type = mapItems["VAMPIRE"];
-                        game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
+                        if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
+                            current.type = mapItems["VAMPIRE"];
+                            game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
+                        }
                     }
                 }
                 dungeon.initialvisits++;

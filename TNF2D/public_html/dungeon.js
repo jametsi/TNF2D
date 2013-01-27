@@ -126,13 +126,13 @@ var mapItemImageUrls = {
     "RIGHT"                 : 'img/seina_oikea.png',
     "RIGHT_OUT"             : 'img/seinat_ulos_oikea.png',
     "LEFT_RIGHT"            : 'img/seina_vasenoikea.png',
-    "LEFT_RIGHT_OUT"        : 'img/seinat_ulos_vasenoikea.png',
+    "LEFT_RIGHT_OUT"        : 'img/seinat_ulos_oikeavasen.png',
     "LEFT_BOTTOM_RIGHT"     : 'img/seina_vasenalaoikea.png',
-    "LEFT_BOTTOM_RIGHT_OUT" : 'img/seinat_ulos_vasenalaoikea.png',
+    "LEFT_BOTTOM_RIGHT_OUT" : 'img/seinat_ulos_oikeavasenala.png',
     "TOP_LEFT_RIGHT"        : 'img/seina_vasenylaoikea.png',
     "TOP_LEFT_RIGHT_OUT"    : 'img/seinat_ulos_oikeavasenyla.png',
     "TOP_RIGHT_BOTTOM"      : 'img/seina_oikeaalayla.png',
-    "TOP_RIGHT_BOTTOM_OUT"  : 'img/seina_oikeaylaala.png',
+    "TOP_RIGHT_BOTTOM_OUT"  : 'img/seinat_ulos_oikeaylaala.png',
     "TOP_LEFT_BOTTOM"       : 'img/seina_vasenalayla.png',
     "RIGHT_BOTTOM"          : 'img/seina_oikeaala.png',
     "RIGHT_BOTTOM_OUT"      : 'img/seinat_ulos_oikeaala.png',
@@ -203,14 +203,14 @@ var dungeon = {
                 dungeon.removeWall(current, nextnode);
                 stack.push(current);
                 current = nextnode;
-                if(current.type != mapItems["FINISH"] || current.type != mapItems["START"]) {
+                if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
                     current.type = mapItems["FLOOR"];
                     if(Math.random() > 0.5) {
-                       // if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
+                      //  if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
                             current.type = mapItems["VAMPIRE"];
                             console.log("Added vampire!");
                             game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
-                      //  }
+                     //   }
                     }
                 }
                 dungeon.initialvisits++;

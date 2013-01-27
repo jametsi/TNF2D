@@ -11,7 +11,7 @@ var mapItems = {
     "WHITE": 9
 }
 
-var AMOUNT_OF_VAMPIRES = 0.75; // 25% chance for vampire
+var AMOUNT_OF_VAMPIRES = 0.5; // 25% chance for vampire
 
 mapTile = function(type, x, y)  {
     this.TOPWALL = true;
@@ -41,27 +41,54 @@ mapTile = function(type, x, y)  {
         }
         else if(this.TOPWALL == false && this.BOTTOMWALL== false && this.RIGHTWALL && this.LEFTWALL == false) {
             this.image = mapItemImages["RIGHT"];
+            if(this.type== mapItems["FINISH"]) {
+                this.image = mapItemImages["RIGHT_OUT"];
+            }
         }
         else if(this.TOPWALL == false && this.BOTTOMWALL== false && this.RIGHTWALL && this.LEFTWALL) {
             this.image = mapItemImages["LEFT_RIGHT"];
+            if(this.type== mapItems["FINISH"]) {
+                console.log("exit is there");
+                this.image = mapItemImages["LEFT_RIGHT_OUT"];
+            }
         }
         else if(this.TOPWALL == false && this.BOTTOMWALL && this.RIGHTWALL && this.LEFTWALL ) {
             this.image = mapItemImages["LEFT_BOTTOM_RIGHT"];
+            if(this.type== mapItems["FINISH"]) {
+                console.log("exit is there");
+                this.image = mapItemImages["LEFT_BOTTOM_RIGHT_OUT"];
+            }
         }
         else if(this.TOPWALL && this.BOTTOMWALL == false&& this.RIGHTWALL && this.LEFTWALL ) {
             this.image = mapItemImages["TOP_LEFT_RIGHT"];
+            if(this.type== mapItems["FINISH"]) {
+                console.log("exit is there");
+                this.image = mapItemImages["TOP_LEFT_RIGHT_OUT"];
+            }
         }
         else if(this.TOPWALL && this.BOTTOMWALL  && this.RIGHTWALL && this.LEFTWALL== false ) {
             this.image = mapItemImages["TOP_RIGHT_BOTTOM"];
+            if(this.type== mapItems["FINISH"]) {
+                console.log("exit is there");
+                this.image = mapItemImages["TOP_RIGHT_BOTTOM_OUT"];
+            }
         }
         else if(this.TOPWALL && this.BOTTOMWALL  && this.RIGHTWALL == false && this.LEFTWALL ) {
             this.image = mapItemImages["TOP_LEFT_BOTTOM"];
         }
         else if(this.TOPWALL == false && this.BOTTOMWALL  && this.RIGHTWALL&& this.LEFTWALL == false  ) {
             this.image = mapItemImages["RIGHT_BOTTOM"];
+            if(this.type== mapItems["FINISH"]) {
+                console.log("exit is there");
+                this.image = mapItemImages["RIGHT_BOTTOM_OUT"];
+            }
         }
         else if(this.TOPWALL  && this.BOTTOMWALL== false  && this.RIGHTWALL && this.LEFTWALL == false  ) {
             this.image = mapItemImages["TOP_RIGHT"];
+            if(this.type== mapItems["FINISH"]) {
+                console.log("exit is there");
+                this.image = mapItemImages["TOP_RIGHT_OUT"];
+            }
         }
         else if(this.TOPWALL  == false  && this.BOTTOMWALL  && this.RIGHTWALL == false && this.LEFTWALL ) {
             this.image = mapItemImages["LEFT_BOTTOM"];
@@ -92,23 +119,30 @@ mapTile = function(type, x, y)  {
 }
 
 var mapItemImageUrls = {
-    "TOP"               : "img/seina_yla.png",
-    "BOTTOM"            : "img/seina_ala.png",
-    "TOP_BOTTOM"        : 'img/seina_alayla.png',
-    "LEFT"              : 'img/seina_vasen.png',
-    "RIGHT"             : 'img/seina_oikea.png',
-    "LEFT_RIGHT"        : 'img/seina_vasenoikea.png',
-    "LEFT_BOTTOM_RIGHT" : 'img/seina_vasenalaoikea.png',
-    "TOP_LEFT_RIGHT"    : 'img/seina_vasenylaoikea.png',
-    "TOP_RIGHT_BOTTOM"  : 'img/seina_oikeaalayla.png',
-    "TOP_LEFT_BOTTOM"   : 'img/seina_vasenalayla.png',
-    "RIGHT_BOTTOM"      : 'img/seina_oikeaala_tummennettu.png',
-    "TOP_RIGHT"         : 'img/seina_oikeayla.png',
-    "LEFT_BOTTOM"       : 'img/seina_vasenala.png',
-    "TOP_LEFT"          : 'img/seina_vasenyla.png',
-    "FLOOR1"            : 'img/floortile1_tummennettu.png',
-    "FLOOR2"            : 'img/floortile1_tummennettu.png',
-    "EMPTY"             : 'img/floortile2.png'
+    "TOP"                   : "img/seina_yla.png",
+    "BOTTOM"                : "img/seina_ala.png",
+    "TOP_BOTTOM"            : 'img/seina_alayla.png',
+    "LEFT"                  : 'img/seina_vasen.png',
+    "RIGHT"                 : 'img/seina_oikea.png',
+    "RIGHT_OUT"             : 'img/seinat_ulos_oikea.png',
+    "LEFT_RIGHT"            : 'img/seina_vasenoikea.png',
+    "LEFT_RIGHT_OUT"        : 'img/seinat_ulos_vasenoikea.png',
+    "LEFT_BOTTOM_RIGHT"     : 'img/seina_vasenalaoikea.png',
+    "LEFT_BOTTOM_RIGHT_OUT" : 'img/seinat_ulos_vasenalaoikea.png',
+    "TOP_LEFT_RIGHT"        : 'img/seina_vasenylaoikea.png',
+    "TOP_LEFT_RIGHT_OUT"    : 'img/seinat_ulos_oikeavasenyla.png',
+    "TOP_RIGHT_BOTTOM"      : 'img/seina_oikeaalayla.png',
+    "TOP_RIGHT_BOTTOM_OUT"  : 'img/seina_oikeaylaala.png',
+    "TOP_LEFT_BOTTOM"       : 'img/seina_vasenalayla.png',
+    "RIGHT_BOTTOM"          : 'img/seina_oikeaala.png',
+    "RIGHT_BOTTOM_OUT"      : 'img/seinat_ulos_oikeaala.png',
+    "TOP_RIGHT"             : 'img/seina_oikeayla.png',
+    "TOP_RIGHT_OUT"         : 'img/seinat_ulos_oikeayla.png',
+    "LEFT_BOTTOM"           : 'img/seina_vasenala.png',
+    "TOP_LEFT"              : 'img/seina_vasenyla.png',
+    "FLOOR1"                : 'img/floortile1_tummennettu.png',
+    "FLOOR2"                : 'img/floortile1_tummennettu.png',
+    "EMPTY"                 : 'img/floortile2.png'
 
 }
 
@@ -169,13 +203,14 @@ var dungeon = {
                 dungeon.removeWall(current, nextnode);
                 stack.push(current);
                 current = nextnode;
-                if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
+                if(current.type != mapItems["FINISH"] || current.type != mapItems["START"]) {
                     current.type = mapItems["FLOOR"];
-                    if(Math.random() > AMOUNT_OF_VAMPIRES) {
-                        if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
+                    if(Math.random() > 0.5) {
+                       // if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
                             current.type = mapItems["VAMPIRE"];
+                            console.log("Added vampire!");
                             game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
-                        }
+                      //  }
                     }
                 }
                 dungeon.initialvisits++;

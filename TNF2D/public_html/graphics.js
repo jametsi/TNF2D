@@ -27,14 +27,14 @@ Painter.prototype.drawFlashLight = function() {
     var height = this.flashLightImage.height;
     var width = this.flashLightImage.width;
 
-   game.overlay.globalCompositeOperation = "lighter";
-  //  game.overlay.globalAlpha = 0.5;
+    game.overlay.globalCompositeOperation = "lighter";
+    //  game.overlay.globalAlpha = 0.5;
     game.overlay.translate(translatepaskex, translatepaskey);
     game.overlay.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
     game.overlay.drawImage(this.flashLightImage, -100, -220, width, height);
     game.overlay.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.overlay.translate(-(translatepaskex), -(translatepaskey));
- //   game.overlay.globalAlpha = 1.0;
+    //   game.overlay.globalAlpha = 1.0;
 
 }
 
@@ -80,19 +80,19 @@ Painter.prototype.ybounds = function(y, modifier) {
 };
 
 Painter.prototype.tileWithinBounds = function(maptile) {/*
-    var x = false, y = false;
-    var position = new Vector(maptile.x + maptile.sizex/2, maptile.y + maptile.sizey/2)
-    if (this.vectorWithinBounds(position)) {
-        x = true;
-        y = true;
-    }
-    else if (this.xbounds(position.x - maptile.sizex) || this.xbounds(position.x )) {
-        x = true;
-    }
-    if (x && (this.ybounds(position.y - maptile.sizey) || this.xbounds(position.y))) { // <--- xbounds tässä????
-        y = true;
-    }
-    return x && y;*/
+ var x = false, y = false;
+ var position = new Vector(maptile.x + maptile.sizex/2, maptile.y + maptile.sizey/2)
+ if (this.vectorWithinBounds(position)) {
+ x = true;
+ y = true;
+ }
+ else if (this.xbounds(position.x - maptile.sizex) || this.xbounds(position.x )) {
+ x = true;
+ }
+ if (x && (this.ybounds(position.y - maptile.sizey) || this.xbounds(position.y))) { // <--- xbounds tässä????
+ y = true;
+ }
+ return x && y;*/
     return true;
 };
 
@@ -144,8 +144,8 @@ Painter.prototype.drawHero = function() {
     game.context.drawImage(game.hero.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
     game.context.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.context.translate(-(translatepaskex), -(translatepaskey));
-   
-   if(this.counter == this.animcount) {
+
+    if(this.counter == this.animcount) {
         game.hero.changeFrame();
         this.counter = 1;
     } else {
@@ -165,4 +165,34 @@ Painter.prototype.drawHero = function() {
     game.context.closePath();
     game.context.fillStyle = 'rgb(255,0,0)';
     game.context.fill();
+}
+
+Painter.prototype.drawVampires = function() {
+    for(var vampire in game.vampires.list) {
+        if(this.vectorWithinBounds(vampire.position)) {
+            this.drawVampire(vampire);
+        }
+    }
+}
+
+Painter.prototype.drawVampire = function(vampire) {
+
+    var clip_offset_x = vampire.lastAnimFrame*vampire.spritewidth;
+    var drawPos = vampire.position.subtract(this.MIN);
+    var translatepaskex = drawPos.x;
+    var translatepaskey = drawPos.y;
+
+    game.context.translate(translatepaskex, translatepaskey);
+    game.context.rotate(-vampire.angle * Math.PI / 180 + Math.PI/2);
+    game.context.drawImage(vampire.sprite, clip_offset_x, 0, 100, 100, -50, -50, vampire.width, vampire.height);
+    game.context.rotate(vampire.angle* Math.PI / 180 - Math.PI/2);
+    game.context.translate(-(translatepaskex), -(translatepaskey));
+
+    if(this.counter == this.animcount) {
+        vampire.changeFrame();
+        this.counter = 1;
+    } else {
+        this.counter++;
+    }
+
 }

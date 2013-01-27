@@ -3,12 +3,19 @@
 function VampireManager() {
 	this.list = [];
 	this.sprite = loader.loadImage("img/vampire_spritesheet_final_katseylos.png");
+
     this.growls = [];
-    this.growls.push(loader.loadSound("audio/vampirelurk1"));
-    this.growls.push(loader.loadSound("audio/vampirelurk2"));
-    this.growls.push(loader.loadSound("audio/vampirelurk3"));
-    this.growls.push(loader.loadSound("audio/vampirelurk4"));
+    for (var i = 1; i<5; i++) {
+        this.growls.push(loader.loadSound("audio/vampirelurk"+i));
+    }
     this.lastGrowled = new Date();
+
+    this.attacks = [];
+    for (var i = 1; i<5; i++) {
+        this.attacks.push(loader.loadSound("audio/vampireattack"+i));
+    }
+    this.lastAttacked = new Date();
+
 
 	this.spritewidth = 100;
     this.spriteheight = 100;
@@ -31,6 +38,13 @@ VampireManager.prototype.playGrowl = function() {
         this.lastGrowled = new Date();
     }
 }
+VampireManager.prototype.playAttack = function() {
+    if (new Date() - this.lastAttacked > 4000) {
+        var attack = Math.floor(Math.random()*4);
+        this.attacks[attack].play();
+        this.lastAttacked = new Date();
+    }
+}
 
 function Vampire(px,py) {
 	var x = px || 0;
@@ -50,11 +64,13 @@ function Vampire(px,py) {
 
 Vampire.prototype.update = function(hero) {
 
-	if(this.position.distance(hero.position) < 400) { // If hero is in line of sight or close or something...
+    if(this.position.distance(hero.position) < 50*50) { // If hero is in line of sight or close or something...
+        game.vampires.playAttack();
+    }
+	else if(this.position.distance(hero.position) < 600*600) { // If hero is in line of sight or close or something...
         game.vampires.playGrowl();
         this.attack(hero);
 	}
-	
 	else {
 		this.roam();
 	}

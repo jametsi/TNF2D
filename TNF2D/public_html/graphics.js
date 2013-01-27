@@ -207,9 +207,9 @@ Painter.prototype.drawVampire = function(vampire) {
     var translatepaskey = drawPos.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(vampire.angle * Math.PI / 180 + Math.PI/2);
+    game.context.rotate(-vampire.angle * Math.PI / 180 + Math.PI);
     game.context.drawImage(game.vampires.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.vampires.width, game.vampires.height);
-    game.context.rotate(-vampire.angle* Math.PI / 180 - Math.PI/2);
+    game.context.rotate(vampire.angle* Math.PI / 180 + Math.PI);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     if(this.counter == this.animcount) {

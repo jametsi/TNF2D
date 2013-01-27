@@ -45,7 +45,7 @@ Vector.prototype.deltay = function(vector) {
 
 Vector.prototype.distance = function(vector) {
     var distanceVector = new Vector(this.deltax(vector), this.deltay(vector));
-    return Math.sqrt(distanceVector.squaredLength());
+    return distanceVector.squaredLength();
 }
 
 Vector.prototype.angle = function(vector) {

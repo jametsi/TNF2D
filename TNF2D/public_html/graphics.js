@@ -143,7 +143,8 @@ Painter.prototype.drawHero = function() {
     game.context.drawImage(game.hero.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
     game.context.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.context.translate(-(translatepaskex), -(translatepaskey));
-    if(this.counter == this.animcount) {
+   
+   if(this.counter == this.animcount) {
         game.hero.changeFrame();
         this.counter = 1;
     } else {

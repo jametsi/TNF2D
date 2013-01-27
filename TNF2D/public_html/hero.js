@@ -49,16 +49,9 @@ Hero.prototype.turnLeft = function() {
 }
 
 Hero.prototype.changeFrame = function() {
-    var max = 3;
-    if(this.walking) {
-        this.lastAnimFrame++;
-    }
-
-    if(this.lastAnimFrame == max) {
-        this.lastAnimFrame = 0;
-    }
-
+    this.lastAnimFrame = (this.lastAnimFrame + 1) % 3
 }
+
 Hero.prototype.move = function() {
     var x = Math.floor(this.position.x/400);
     var y = Math.floor(this.position.y/400);

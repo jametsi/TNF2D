@@ -58,8 +58,6 @@ Hero.prototype.move = function() {
 
     var positionX = Math.floor((this.position.x/400-(Math.floor(this.position.x/400)))*400);
     var positionY = Math.floor((this.position.y/400-(Math.floor(this.position.y/400)))*400);
-    console.log("Position X: "+positionX+"    Position Y: "+positionY);
-    console.log(dungeon.map[x][y]);
 
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;

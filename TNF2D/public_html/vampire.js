@@ -76,6 +76,8 @@ Vampire.prototype.update = function(hero) {
 	else {
 		this.roam();
 	}
+
+	this.changeFrame();
 }
 
 Vampire.prototype.roam = function() {
@@ -150,6 +152,7 @@ Vampire.prototype.getTile = function() {
 }
 
 Vampire.prototype.attack = function(hero) {
+	this.walkingSpeed = 1.1;
 	this.angle = this.position.angle(hero.position);
 	this.move();
 }
@@ -157,6 +160,6 @@ Vampire.prototype.attack = function(hero) {
 Vampire.prototype.changeFrame = function() {
 	this.animTick = (this.animTick + 1) % 20;
 	if(this.animTick == 0) {
-		this.walking = (this.walking + 1) % 3;
+		this.lastAnimFrame = (this.lastAnimFrame + 1) % 3;
 	}   
 }

@@ -182,13 +182,11 @@ Painter.prototype.drawVampires = function() {
 }
 
 Painter.prototype.addSplatter = function(vampire) {
-
     if (this.splatters.length < this.MAX_SPLATTER && this.counter <= this.animcount/4) {
         var objectpos = game.hero.position;
         var rnd_x = Math.random()*80-40;
         var rnd_y = Math.random()*80-40;
         this.splatters.push(new Splatter(objectpos.x+rnd_x, objectpos.y+rnd_y));
-
     }
 }
 Painter.prototype.drawSplatters = function() {
@@ -252,12 +250,12 @@ Painter.prototype.drawVampire = function(vampire) {
     game.context.rotate(vampire.angle* Math.PI / 180 + Math.PI);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
-    if(this.counter == this.animcount) {
-        vampire.changeFrame();
-        this.counter = 1;
-    } else {
-        this.counter++;
-    }
+    // if(this.counter == this.animcount) {
+    //     vampire.changeFrame();
+    //     this.counter = 1;
+    // } else {
+    //     this.counter++;
+    // }
 
 }
 

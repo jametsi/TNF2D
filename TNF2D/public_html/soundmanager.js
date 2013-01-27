@@ -16,6 +16,12 @@ function SoundManager() {
     }
     this.lastAttacked = new Date();
 
+    this.snares = [];
+    for (var i = 1 ; i < 4 ; ++i) {
+        this.snares.push(loader.loadSound("audio/vampireflashlight"+i));
+    }
+    this.lastSnared = new Date();
+
     this.bat = loader.loadSound("audio/BatsDemoWav");
 }
 SoundManager.prototype.playGrowl = function() {
@@ -30,6 +36,13 @@ SoundManager.prototype.playAttack = function() {
         var attack = Math.floor(Math.random()*4);
         this.attacks[attack].play();
         this.lastAttacked = new Date();
+    }
+}
+SoundManager.prototype.playSnare = function() {
+    if (new Date() - this.lastAttacked > 4000) {
+        var snare = Math.floor(Math.random()*4);
+        this.snares[snare].play();
+        this.lastSnared = new Date();
     }
 }
 SoundManager.prototype.playBats = function() {

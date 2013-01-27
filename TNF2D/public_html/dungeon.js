@@ -194,9 +194,9 @@ var dungeon = {
 
     generateLevel: function (xsize, ysize) {
         var startx = 0;
-        var starty =  Math.floor(Math.random() * ysize - 1);
+        var starty =  Math.floor(Math.random() * ysize);
         var finishx = xsize - 1;
-        var finishy = Math.floor(Math.random() * ysize - 1);
+        var finishy = Math.floor(Math.random() * ysize);
 
 
 

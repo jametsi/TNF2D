@@ -139,9 +139,11 @@ Painter.prototype.drawHero = function() {
     var translatepaskey = this.camera.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
+    var turnangle = game.hero.angle * Math.PI / 180;
+    var piHalf = + Math.PI/2
+    game.context.rotate(-turnangle + piHalf);
     game.context.drawImage(game.hero.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.hero.width, game.hero.height);
-    game.context.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
+    game.context.rotate(turnangle - piHalf);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     if(this.counter == this.animcount) {
@@ -183,13 +185,11 @@ Painter.prototype.drawVampires = function() {
 }
 
 Painter.prototype.addSplatter = function(vampire) {
-
     if (this.splatters.length < this.MAX_SPLATTER && this.counter <= this.animcount/4) {
         var objectpos = game.hero.position;
         var rnd_x = Math.random()*80-40;
         var rnd_y = Math.random()*80-40;
         this.splatters.push(new Splatter(objectpos.x+rnd_x, objectpos.y+rnd_y));
-
     }
 }
 Painter.prototype.drawSplatters = function() {
@@ -248,17 +248,18 @@ Painter.prototype.drawVampire = function(vampire) {
     var translatepaskey = drawPos.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(-vampire.angle * Math.PI / 180 + Math.PI);
+    var turnangle = vampire.angle * Math.PI / 180 + Math.PI;
+    game.context.rotate(-turnangle);
     game.context.drawImage(game.vampires.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.vampires.width, game.vampires.height);
-    game.context.rotate(vampire.angle* Math.PI / 180 + Math.PI);
+    game.context.rotate(turnangle);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
-    if(this.counter == this.animcount) {
-        vampire.changeFrame();
-        this.counter = 1;
-    } else {
-        this.counter++;
-    }
+    // if(this.counter == this.animcount) {
+    //     vampire.changeFrame();
+    //     this.counter = 1;
+    // } else {
+    //     this.counter++;
+    // }
 
 }
 

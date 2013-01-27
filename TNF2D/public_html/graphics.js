@@ -102,7 +102,7 @@ Painter.prototype.drawDungeonTiles = function() {
 Painter.prototype.drawTile = function(tile) {
     var drawPos = tile.getPosition().subtract(this.MIN);
     game.context.drawImage(tile.floorimage, drawPos.x, drawPos.y, tile.sizex, tile.sizey);
-    game.context.drawImage(tile.image, drawPos.x, drawPos.y, tile.sizex, tile.sizey);
+    game.wallcontext.drawImage(tile.image, drawPos.x, drawPos.y, tile.sizex, tile.sizey);
 }
 
 Painter.prototype.clearScreen = function() {

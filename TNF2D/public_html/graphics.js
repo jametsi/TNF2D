@@ -149,6 +149,7 @@ Painter.prototype.drawHero = function() {
     if(this.counter == this.animcount) {
         if(game.hero.walking) {
             game.hero.changeFrame();
+
         }
         this.counter = 1;
     } else {
@@ -175,7 +176,7 @@ Painter.prototype.drawVampires = function() {
     for(var vampire in game.vampires.list) {
 
         var distance = game.vampires.list[vampire].position.subtract(game.hero.position).length();
-        if( distance <= 30){
+        if( distance <= 55){
             game.hero.takeDamage();
             this.addSplatter(game.vampires.list[vampire]);
         }
@@ -212,7 +213,6 @@ Painter.prototype.drawSplatters = function() {
 Painter.prototype.addSetofBats = function() {
 
     for(var i = 0 ; i < 10 ; ++i) {
-        console.log("added")
         var objectpos = game.hero.position;
         var rnd_x = Math.random()*100-50;
         var rnd_y = Math.random()*100-50;

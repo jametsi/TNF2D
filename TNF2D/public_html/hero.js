@@ -17,7 +17,7 @@ function Hero(startVector) {
 
 Hero.prototype.update = function() {
     this.turn();
-    if(keyhandler.up) {
+    if(keyhandler.up || keyhandler.down) {
         this.walking = true;
         this.move();
     } else {
@@ -39,6 +39,38 @@ Hero.prototype.turn = function() {
         this.turnLeft();
     }*/
     this.angle = newAngle;
+
+
+    var flashLightX = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * 240;
+    var flashLightY = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * 240;
+    var flashLightX1 = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * 180;
+    var flashLightY1 = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * 180;
+    var flashLightX2 = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * 90;
+    var flashLightY2 = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * 90;
+
+    for(var i = 0 ; i < game.vampires.list.length ; ++i ) {
+        var vampire = game.vampires.list[i]; {
+            var flashlight = new Vector(this.position.x+flashLightX, this.position.y+flashLightY);
+            var flashlight1 = new Vector(this.position.x+flashLightX1, this.position.y+flashLightY1);
+            var flashlight2 = new Vector(this.position.x+flashLightX2, this.position.y+flashLightY2);
+            if(vampire.position.subtract(flashlight).length() <= 50) {
+                game.soundManager.playSnare();
+                vampire.flashed = true;
+            }
+            else if(vampire.position.subtract(flashlight1).length() <= 80) {
+                game.soundManager.playSnare();
+                vampire.flashed = true;
+            }
+            else if(vampire.position.subtract(flashlight2).length() <= 50) {
+                game.soundManager.playSnare();
+                vampire.flashed = true;
+            }
+            else {
+                vampire.flashed = false;
+            }
+        }
+    }
+
 }
 
 Hero.prototype.takeDamage = function() {
@@ -75,21 +107,9 @@ Hero.prototype.move = function() {
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 
-    var flashLightX = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * 280;
-    var flashLightY = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * 280;
-
-    for(var i = 0 ; i < game.vampires.list.length ; ++i ) {
-        var vampire = game.vampires.list[i]; {
-            var flashlight = new Vector(positionX+flashLightX, positionY+flashLightY);
-            if(vampire.position.subtract(flashlight).squaredLength() <= 50*50) {
-                game.soundManager.playSnare();
-                vampire.flashed = true;
-                console.log("FLASHED!");
-            }
-            else {
-                vampire.flashed = false;
-            }
-        }
+    if(keyhandler.down) {
+        xMovement = -xMovement/2;
+        yMovement = -yMovement/2;
     }
 
     if(dungeon.map[x][y].type==mapItems["FINISH"]) {

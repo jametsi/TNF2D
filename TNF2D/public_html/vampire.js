@@ -183,7 +183,6 @@ Vampire.prototype.disableMovement = function() {
         xMovement = false;
         yMovement = false;
     }
-
     return [xMovement, yMovement];
 }
 

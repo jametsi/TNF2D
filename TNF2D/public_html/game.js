@@ -58,6 +58,11 @@ var game = {
         game.overlay.height = window.innerHeight;
         game.overlay.width = window.innerWidth;
 
+        loader.init();
+
+        game.soundManager = new SoundManager();
+        dungeon.generateLevel(10, 10);
+        dungeon.initImages();
 
         // Ladataan pelimusiikki
         game.theme = loader.loadSound("snd/TNFI2D_theme");
@@ -88,11 +93,8 @@ var game = {
     },
 
     start: function() {
+
         game.painter = new Painter();
-        game.soundManager = new SoundManager();
-        loader.init();
-        dungeon.generateLevel(10, 10);
-        dungeon.initImages();
         game.hero = new Hero(dungeon.startPosition);
         dungeon.printArray();
         //console.log(dungeon.map);

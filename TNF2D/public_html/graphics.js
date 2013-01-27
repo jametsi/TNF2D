@@ -212,7 +212,6 @@ Painter.prototype.drawSplatters = function() {
 Painter.prototype.addSetofBats = function() {
 
     for(var i = 0 ; i < 10 ; ++i) {
-        console.log("added")
         var objectpos = game.hero.position;
         var rnd_x = Math.random()*100-50;
         var rnd_y = Math.random()*100-50;

@@ -229,7 +229,7 @@ Painter.prototype.drawBats = function() {
 
         game.context.translate(translatepaskex, translatepaskey);
         game.context.rotate(-bat.angle * Math.PI / 180 + Math.PI/2);
-        game.context.drawImage(bat.sprite, 0, 0, 80, 50, -25, -25, 50*sizemod, 50*sizemod);
+        game.context.drawImage(bat.sprite, clip_offset_x, 0, 80, 50, -25, -25, 50*sizemod, 50*sizemod);
         game.context.rotate(bat.angle* Math.PI / 180 - Math.PI/2);
         game.context.translate(-(translatepaskex), -(translatepaskey));
         bat.update();
@@ -247,9 +247,9 @@ Painter.prototype.drawVampire = function(vampire) {
     var translatepaskey = drawPos.y;
 
     game.context.translate(translatepaskex, translatepaskey);
-    game.context.rotate(-vampire.angle * Math.PI / 180 + Math.PI/2);
+    game.context.rotate(-vampire.angle * Math.PI / 180 + Math.PI);
     game.context.drawImage(game.vampires.sprite, clip_offset_x, 0, 100, 100, -50, -50, game.vampires.width, game.vampires.height);
-    game.context.rotate(vampire.angle* Math.PI / 180 - Math.PI/2);
+    game.context.rotate(vampire.angle* Math.PI / 180 + Math.PI);
     game.context.translate(-(translatepaskex), -(translatepaskey));
 
     if(this.counter == this.animcount) {
@@ -274,6 +274,10 @@ Painter.prototype.drawMiniMap = function() {
         game.overlay.fillRect(minimapXoffset+(game.vampires.list[vampire].position.x/400)*10-3, minimapYoffset+(game.vampires.list[vampire].position.y/400)*10-3, 6, 6);
 
     }
+
+    game.overlay.fillStyle = "rgba(50, 50, 255, 0.5)";
+    game.overlay.fillRect(minimapXoffset+(game.hero.position.x/400)*10-3, minimapYoffset+(game.hero.position.y/400)*10-3, 6, 6);
+
 
 
 }

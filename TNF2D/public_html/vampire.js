@@ -3,13 +3,20 @@
 function VampireManager() {
 	this.list = [];
 	this.sprite = loader.loadImage("img/vampire_spritesheet_final_katseylos.png");
+    this.growls = [];
+    this.growls.push(loader.loadSound("audio/vampirelurk1"));
+    this.growls.push(loader.loadSound("audio/vampirelurk2"));
+    this.growls.push(loader.loadSound("audio/vampirelurk3"));
+    this.growls.push(loader.loadSound("audio/vampirelurk4"));
+    this.lastGrowled = new Date();
 
 	this.spritewidth = 100;
     this.spriteheight = 100;
 
 	this.width = 100;
     this.height = 100;
-	
+
+    this.movingToBlock = false;
 }
 
 VampireManager.prototype.update = function(hero) {
@@ -17,15 +24,23 @@ VampireManager.prototype.update = function(hero) {
 		this.list[i].update(hero);
 	}
 }
+VampireManager.prototype.playGrowl = function() {
+    if (new Date() - this.lastGrowled > 4000) {
+        var growl = Math.floor(Math.random()*4);
+        this.growls[growl].play();
+        this.lastGrowled = new Date();
+    }
+}
 
 function Vampire(px,py) {
 	var x = px || 0;
 	var y = py || 0;
 	this.position = new Vector(x,y);
-    this.walkingSpeed = 1.3;
+    this.walkingSpeed = 0.9;
+    this.direction = 'right';
     
     this.lastAnimFrame = 0;
-    this.angle = 10;
+    this.angle = 0;
 
     this.width = 100;
     this.height = 100;
@@ -34,16 +49,15 @@ function Vampire(px,py) {
 }
 
 Vampire.prototype.update = function(hero) {
-	if(Math.sqrt(this.position.squaredLength(hero)) < 800) { // If hero is in line of sight or close or something...
-		this.attack(hero);
+
+	if(this.position.distance(hero.position) < 400) { // If hero is in line of sight or close or something...
+        game.vampires.playGrowl();
+        this.attack(hero);
 	}
 	
 	else {
-		this.attack(hero);
-		//this.roam();
+		this.roam();
 	}
-
-	this.move();
 }
 
 Vampire.prototype.roam = function() {
@@ -51,7 +65,10 @@ Vampire.prototype.roam = function() {
 
 	var posvec = this.getTile();
 
-	var tile = dungeon.map[posvec.x][posvec.y];
+	if(dungeon.map[posvec.x] != undefined) {
+		var tile = dungeon.map[posvec.x][posvec.y];
+	}
+	
 
 	if(tile === undefined) {
 		return;
@@ -59,20 +76,55 @@ Vampire.prototype.roam = function() {
 
 	var qPi = Math.PI/2;
 
-	if(tile.TOPWALL == false && dungeon.map[posvec.x][posvec.y-1] !== undefined) {
-		this.angle = 90;
-	} else if (tile.RIGHTWALL == false && dungeon.map[posvec.x-1] !== undefined && dungeon.map[posvec.x-1][posvec.y] !== undefined) {
-		this.angle = 180;
-	} else if (tile.BOTTOMWALL == false && dungeon.map[posvec.x][posvec.y+1] !== undefined) {
-		this.angle = 270;
-	} else if (tile.LEFTWALL == false && dungeon.map[posvec.x+1][posvec.y] !== undefined) {
-		this.angle = 0;
+	if(this.movingToBlock == false) {
+		if(tile.TOPWALL == false && dungeon.map[posvec.x][posvec.y-1] !== undefined) {
+			this.direction = 'up';
+			this.movingToBlock = true;
+			this.angle = 90;
+		} else if (tile.RIGHTWALL == false && dungeon.map[posvec.x-1] !== undefined && dungeon.map[posvec.x-1][posvec.y] !== undefined) {
+			this.direction = 'right';
+			this.movingToBlock = true;
+			this.angle = 180;
+		} else if (tile.BOTTOMWALL == false && dungeon.map[posvec.x][posvec.y+1] !== undefined) {
+			this.direction = 'down';
+			this.movingToBlock = true;
+			this.angle = 270;
+		} else if (tile.LEFTWALL == false && dungeon.map[posvec.x+1][posvec.y] !== undefined) {
+			this.direction = 'left';
+			this.movingToBlock = true;
+			this.angle = 0;
+		}
+	} else {
+		this.moveToBlock(this.direction);
+	}
+}
+
+Vampire.prototype.moveToBlock = function() {
+	switch(this.direction) {
+		case 'up':
+			this.position.y -= this.walkingSpeed;
+		break;
+
+		case 'right':
+			this.position.x += this.walkingSpeed;
+		break;
+
+		case 'down':
+			this.position.y += this.walkingSpeed;
+		break;
+
+		case 'left':
+			this.position.x -= this.walkingSpeed;
+		break;
+
+		default:
+		break;
 	}
 }
 
 Vampire.prototype.move = function() {
-	this.position.x += Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
-    this.position.y += Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+	this.position.x += Math.sin(this.angle * (Math.PI / 180)) * this.walkingSpeed;
+    this.position.y += Math.cos(this.angle * (Math.PI / 180)) * this.walkingSpeed;
 }
 
 Vampire.prototype.getTile = function() {
@@ -80,7 +132,8 @@ Vampire.prototype.getTile = function() {
 }
 
 Vampire.prototype.attack = function(hero) {
-	this.angle = this.position.angle(hero.position) - Math.PI;
+	this.angle = this.position.angle(hero.position);
+	this.move();
 }
 
 Vampire.prototype.changeFrame = function() {

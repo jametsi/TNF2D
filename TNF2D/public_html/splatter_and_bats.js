@@ -40,7 +40,7 @@ function Bat(x, y) {
     this.x = x;
     this.y = y;
     this.position = new Vector(x,y);
-    this.lifetime = 1020;
+    this.lifetime = 1200;
     this.animcounter = 0;
     this.counter = 0;
     this.size = 50;
@@ -61,7 +61,7 @@ Bat.prototype.update = function() {
         console.log("dead");
     }
     if(this.alive) {
-        if(this.animcounter > 0 && this.counter % 120 ) {
+        if(this.animcounter > 0 && this.counter % 240 ) {
             this.lastAnimFrame++;
 
             if(this.lastAnimFrame == 3) {

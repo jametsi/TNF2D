@@ -22,6 +22,7 @@ mapTile = function(type, x, y)  {
     this.sizex = 400;
     this.sizey = 400;
     this.image;
+    this.floorimage;
 
     this.determineImage = function() {
         if(this.TOPWALL && this.BOTTOMWALL == false && this.RIGHTWALL == false && this.LEFTWALL == false) {
@@ -69,6 +70,12 @@ mapTile = function(type, x, y)  {
         else {
             this.image =mapItemImages["EMPTY"];
         }
+        if(Math.random() > 0.5) {
+            this.floorimage = mapItemImages["FLOOR1"];
+        }
+        else {
+            this.floorimage = mapItemImages["FLOOR2"];
+        }
     }
 
 
@@ -76,9 +83,9 @@ mapTile = function(type, x, y)  {
         game.context.drawImage(this.image, drawx, drawy, 200, 200);
     },
 
-    this.getPosition = function() {
-        return new Vector(this.x*this.sizex, this.y*this.sizey);
-    }
+        this.getPosition = function() {
+            return new Vector(this.x*this.sizex, this.y*this.sizey);
+        }
 
 }
 
@@ -93,11 +100,13 @@ var mapItemImageUrls = {
     "TOP_LEFT_RIGHT"    : 'img/seina_vasenylaoikea.png',
     "TOP_RIGHT_BOTTOM"  : 'img/seina_oikeaalayla.png',
     "TOP_LEFT_BOTTOM"   : 'img/seina_vasenalayla.png',
-    "EMPTY"             : 'img/wall_fail.png',
     "RIGHT_BOTTOM"      : 'img/seina_oikeaala.png',
     "TOP_RIGHT"         : 'img/seina_oikeayla.png',
     "LEFT_BOTTOM"       : 'img/seina_vasenalaoikea.png',
-    "TOP_LEFT"          : 'img/seina_vasenyla.png'
+    "TOP_LEFT"          : 'img/seina_vasenyla.png',
+    "FLOOR1"            : 'img/floortile1.png',
+    "FLOOR2"            : 'img/floortile2.png',
+    "EMPTY"             : 'img/floortile2.png'
 
 }
 

@@ -4,9 +4,9 @@ function Painter(){
     this.MIN = new Vector(0,0);
     this.MAX = new Vector(0,0);
     this.counter = 0;
-    this.animcount = 10;
+    this.animcount = 20;
     this.flashLightImage = new Image();
-    this.flashLightImage.src = 'img/flashlight.png';
+    this.flashLightImage.src = 'img/valokeila.png';
 }
 
 Painter.prototype.draw = function() {
@@ -28,13 +28,13 @@ Painter.prototype.drawFlashLight = function() {
     var width = this.flashLightImage.width;
 
     game.overlay.globalCompositeOperation = "lighter";
-    game.overlay.globalAlpha = 0.5;
+    //game.overlay.globalAlpha = 1.0;
     game.overlay.translate(translatepaskex, translatepaskey);
     game.overlay.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
     game.overlay.drawImage(this.flashLightImage, -100, -220, width, height);
     game.overlay.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.overlay.translate(-(translatepaskex), -(translatepaskey));
-    game.overlay.globalAlpha = 1.0;
+  //  game.overlay.globalAlpha = 1.0;
 
 }
 
@@ -114,6 +114,7 @@ Painter.prototype.drawDungeonTiles = function() {
 
 Painter.prototype.drawTile = function(tile) {
     var drawPos = tile.getPosition().subtract(this.MIN);
+    game.context.drawImage(tile.floorimage, drawPos.x, drawPos.y, tile.sizex, tile.sizey);
     game.context.drawImage(tile.image, drawPos.x, drawPos.y, tile.sizex, tile.sizey);
 }
 

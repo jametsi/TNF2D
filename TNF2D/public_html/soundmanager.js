@@ -1,4 +1,9 @@
 function SoundManager() {
+
+    this.theme = loader.loadSound("audio/CaveAmbWav");
+    this.theme.loop = true;
+    this.theme.play();
+
     this.growls = [];
     for (var i = 1; i<5; i++) {
         this.growls.push(loader.loadSound("audio/vampirelurk"+i));

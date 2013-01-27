@@ -42,7 +42,7 @@ SoundManager.prototype.playAttack = function() {
 }
 SoundManager.prototype.playSnare = function() {
     if (new Date() - this.lastAttacked > 4000) {
-        var snare = Math.floor(Math.random()*4);
+        var snare = Math.floor(Math.random()*3);
         this.snares[snare].play();
         this.lastSnared = new Date();
     }

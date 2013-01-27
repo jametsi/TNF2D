@@ -6,7 +6,7 @@ function Painter(){
     this.counter = 0;
     this.animcount = 20;
     this.flashLightImage = new Image();
-    this.flashLightImage.src = 'img/valokeila.png';
+    this.flashLightImage.src = 'img/valokeila_fixed.png';
     this.splatters = [];
     this.MAX_SPLATTER = 30;
 
@@ -38,7 +38,7 @@ Painter.prototype.draw = function() {
     this.drawFlashLight();
     this.drawBats();
     // this.drawTiles();
-    this.drawMiniMap();
+//    this.drawMiniMap();
 }
 
 Painter.prototype.drawFlashLight = function() {
@@ -177,6 +177,7 @@ Painter.prototype.drawVampires = function() {
 
         var distance = game.vampires.list[vampire].position.subtract(game.hero.position).length();
         if( distance <= 30){
+            game.hero.takeDamage();
             this.addSplatter(game.vampires.list[vampire]);
         }
         //  if(this.vectorWithinBounds(game.vampires.list[vampire].position)) {

@@ -97,9 +97,9 @@ var game = {
         dungeon.printArray();
         //console.log(dungeon.map);
 
-/*        for (var entity in level.entities) {
-            entities.create(level.entities[entity]);
-        }*/
+        /*        for (var entity in level.entities) {
+         entities.create(level.entities[entity]);
+         }*/
         game.ended = false;
 
         keyhandler.init();
@@ -121,10 +121,24 @@ var game = {
         // Siivotaan canvas
         game.step();
         game.painter.draw();
-       // game.drawAllEntities();
+        // game.drawAllEntities();
 
-        if (game.ended) {
-            //TODO näytä loppuruutu
+        if (game.ended == "WIN") {
+            $('.gamelayer').hide()
+            $('#endingscreen').fadeIn(500, function() {
+                $('#endingscreen').html("<img src id=\"img/theend_iso.png\">");
+                $('#endingscreen').css("width", "100%");
+                $('#endingscreen').css("height", "100%");
+            });
+        }
+        else if (game.ended == "DEATH") {
+            game.soundManager.playerDead.play();
+            $('.gamelayer').hide()
+            $('#endingscreen').fadeIn(500, function() {
+                $('#endingscreen').html("<img src id=\"img/youdied.png\">");
+                $('#endingscreen').css("width", "100%");
+                $('#endingscreen').css("height", "100%");
+            });
         }
         else {
             game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);
@@ -138,45 +152,45 @@ var level = {
 }
 
 /*var entities = {
-    definitions: {
-        "hero": {
-            name: "blank",
-            type: "hero",
-            width:100,
-            height:100,
-            walkSpeed: 1.3,
-            turnSpeed: 2,
-            angle: 0
-        }
-    },
-    create: function(entity) {
+ definitions: {
+ "hero": {
+ name: "blank",
+ type: "hero",
+ width:100,
+ height:100,
+ walkSpeed: 1.3,
+ turnSpeed: 2,
+ angle: 0
+ }
+ },
+ create: function(entity) {
 
-        var definition = entities.definitions[entity.type];
-        if (!definition) {
-            console.log ("Undefined entity type ", entity.type);
-            return;
-        }
+ var definition = entities.definitions[entity.type];
+ if (!definition) {
+ console.log ("Undefined entity type ", entity.type);
+ return;
+ }
 
-        switch(entity.type) {
-            case "hero":
-                entity.width = definition.width;
-                entity.height = definition.height;
-                entity.walkSpeed = definition.walkSpeed;
-                entity.sprite = loader.loadImage("img/herosheet.png");
-                game.hero = entity;
-        }
-    },
-    draw: function(entity) {
+ switch(entity.type) {
+ case "hero":
+ entity.width = definition.width;
+ entity.height = definition.height;
+ entity.walkSpeed = definition.walkSpeed;
+ entity.sprite = loader.loadImage("img/herosheet.png");
+ game.hero = entity;
+ }
+ },
+ draw: function(entity) {
 
-        switch(entity.type) {
-            case "hero":
-                // console.log(game.camera);
-                //   console.log(game.camera.x);
+ switch(entity.type) {
+ case "hero":
+ // console.log(game.camera);
+ //   console.log(game.camera.x);
 
-        }
+ }
 
-    }
-}*/
+ }
+ }*/
 
 var keyhandler = {
 

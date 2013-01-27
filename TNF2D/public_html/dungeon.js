@@ -100,12 +100,12 @@ var mapItemImageUrls = {
     "TOP_LEFT_RIGHT"    : 'img/seina_vasenylaoikea.png',
     "TOP_RIGHT_BOTTOM"  : 'img/seina_oikeaalayla.png',
     "TOP_LEFT_BOTTOM"   : 'img/seina_vasenalayla.png',
-    "RIGHT_BOTTOM"      : 'img/seina_oikeaala.png',
+    "RIGHT_BOTTOM"      : 'img/seina_oikeaala_tummennettu.png',
     "TOP_RIGHT"         : 'img/seina_oikeayla.png',
     "LEFT_BOTTOM"       : 'img/seina_vasenala.png',
     "TOP_LEFT"          : 'img/seina_vasenyla.png',
-    "FLOOR1"            : 'img/floortile1.png',
-    "FLOOR2"            : 'img/floortile2.png',
+    "FLOOR1"            : 'img/floortile1_tummennettu.png',
+    "FLOOR2"            : 'img/floortile1_tummennettu.png',
     "EMPTY"             : 'img/floortile2.png'
 
 }
@@ -169,6 +169,9 @@ var dungeon = {
                 current = nextnode;
                 if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
                     current.type = mapItems["FLOOR"];
+                    if(Math.random() > 0.925) {
+                        current.type = mapItems["VAMPIRE"];
+                    }
                 }
                 dungeon.initialvisits++;
 
@@ -275,6 +278,9 @@ var dungeon = {
                     line += '.';
                 }else if(dungeon.map[i][j].type == mapItems["FLOOR"]) {
                     line += '-';
+                }
+                else if(dungeon.map[i][j].type == mapItems["VAMPIRE"]) {
+                    line += 'v';
                 }
                 else {
                     line += '*';

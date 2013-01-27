@@ -33,6 +33,8 @@ function Vampire(px,py) {
     this.height = 100;
     
     this.walking = true;
+
+    this.animTick = 0; // max 20
 }
 
 Vampire.prototype.update = function(hero) {
@@ -47,6 +49,8 @@ Vampire.prototype.update = function(hero) {
 	else {
 		this.roam();
 	}
+
+	this.changeFrame();
 }
 
 Vampire.prototype.roam = function() {
@@ -121,11 +125,14 @@ Vampire.prototype.getTile = function() {
 }
 
 Vampire.prototype.attack = function(hero) {
+	this.walkingSpeed = 1.1;
 	this.angle = this.position.angle(hero.position);
 	this.move();
 }
 
 Vampire.prototype.changeFrame = function() {
-    var max = 3;
-    this.walking = (this.walking + 1) % max;
+	this.animTick = (this.animTick + 1) % 20;
+	if(this.animTick == 0) {
+		this.lastAnimFrame = (this.lastAnimFrame + 1) % 3;
+	}   
 }

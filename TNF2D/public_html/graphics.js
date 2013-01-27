@@ -15,6 +15,7 @@ Painter.prototype.draw = function() {
     this.updateDrawableLimits();
     this.drawDungeonTiles();
     this.drawHero();
+    this.drawVampires();
     this.drawFlashLight();
     // this.drawTiles();
 }
@@ -169,14 +170,13 @@ Painter.prototype.drawHero = function() {
 
 Painter.prototype.drawVampires = function() {
     for(var vampire in game.vampires.list) {
-        if(this.vectorWithinBounds(vampire.position)) {
-            this.drawVampire(vampire);
-        }
+      //  if(this.vectorWithinBounds(game.vampires.list[vampire].position)) {
+            this.drawVampire(game.vampires.list[vampire]);
+      //  }
     }
 }
 
 Painter.prototype.drawVampire = function(vampire) {
-
     var clip_offset_x = vampire.lastAnimFrame*vampire.spritewidth;
     var drawPos = vampire.position.subtract(this.MIN);
     var translatepaskex = drawPos.x;

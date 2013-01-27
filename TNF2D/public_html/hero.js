@@ -22,6 +22,7 @@ Hero.prototype.update = function() {
     } else {
         this.walking = false;
     }
+
 }
 
 Hero.prototype.turn = function() {

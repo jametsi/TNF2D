@@ -57,7 +57,6 @@ var game = {
         game.canvas.width = window.innerWidth;
         game.overlay.height = window.innerHeight;
         game.overlay.width = window.innerWidth;
-        game.painter = new Painter();
 
         // Ladataan pelimusiikki
         game.theme = loader.loadSound("snd/TNFI2D_theme");
@@ -98,6 +97,7 @@ var game = {
     },
 
     start: function() {
+        game.painter = new Painter();
         loader.init();
         dungeon.generateLevel(10, 10);
         dungeon.initImages();

@@ -7,6 +7,12 @@ function Painter(){
     this.animcount = 20;
     this.flashLightImage = new Image();
     this.flashLightImage.src = 'img/valokeila.png';
+
+    this.spotlight = new spotlight({
+        steps: 1,
+        size: 200,
+        blurRadius: 100
+    });
 }
 
 Painter.prototype.draw = function() {
@@ -24,6 +30,9 @@ Painter.prototype.drawFlashLight = function() {
     var clip_offset_x = game.hero.lastAnimFrame*game.hero.spritewidth;
     var translatepaskex = this.camera.x;
     var translatepaskey = this.camera.y;
+
+    // Piirretään SpotLight
+    this.spotlight.move(translatepaskex,translatepaskey);
 
     var height = this.flashLightImage.height;
     var width = this.flashLightImage.width;

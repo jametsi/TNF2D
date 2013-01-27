@@ -36,12 +36,12 @@ function Vampire(px,py) {
 }
 
 Vampire.prototype.update = function(hero) {
-	if(this.position.distance(hero) < 4200) { // If hero is in line of sight or close or something...
+	if(this.position.distance(hero.position) < 1600*1600) { // If hero is in line of sight or close or something...
 		this.attack(hero);
 	}
 	
 	else {
-		this.roam();
+		this.attack(hero);
 	}
 }
 
@@ -108,8 +108,8 @@ Vampire.prototype.moveToBlock = function() {
 }
 
 Vampire.prototype.move = function() {
-	this.position.x += Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
-    this.position.y -= Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+	this.position.x += Math.sin(this.angle * (Math.PI / 180)) * this.walkingSpeed;
+    this.position.y += Math.cos(this.angle * (Math.PI / 180)) * this.walkingSpeed;
 }
 
 Vampire.prototype.getTile = function() {
@@ -117,7 +117,8 @@ Vampire.prototype.getTile = function() {
 }
 
 Vampire.prototype.attack = function(hero) {
-	this.angle = this.position.angle(hero.position) - Math.PI;
+	this.angle = this.position.angle(hero.position);
+	this.move();
 }
 
 Vampire.prototype.changeFrame = function() {

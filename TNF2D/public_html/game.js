@@ -122,7 +122,7 @@ var game = {
     step: function() {
 
         game.hero.update();
-        game.vampires.update();
+        game.vampires.update(game.hero);
 
     },
     animate: function() {

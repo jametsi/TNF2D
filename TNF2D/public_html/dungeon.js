@@ -11,7 +11,7 @@ var mapItems = {
     "WHITE": 9
 }
 
-var AMOUNT_OF_VAMPIRES = 0.5; // 25% chance for vampire
+var AMOUNT_OF_VAMPIRES = 0.1; // 25% chance for vampire
 
 mapTile = function(type, x, y)  {
     this.TOPWALL = true;

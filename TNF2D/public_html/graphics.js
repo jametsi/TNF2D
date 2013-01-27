@@ -30,6 +30,7 @@ Painter.prototype.draw = function() {
     this.drawVampires();
     this.drawFlashLight();
     // this.drawTiles();
+    this.drawMiniMap();
 }
 
 Painter.prototype.drawFlashLight = function() {
@@ -218,4 +219,21 @@ Painter.prototype.drawVampire = function(vampire) {
         this.counter++;
     }
 
+}
+
+Painter.prototype.drawMiniMap = function() {
+    var minimapXoffset = game.canvas.width/2-200;
+    var minimapYoffset = game.canvas.height/2;
+
+    game.overlay.fillStyle = "rgba(150, 255, 200, 0.2)";
+    game.overlay.fillRect(minimapXoffset, minimapYoffset, 100, 100);
+
+    game.overlay.fillStyle = "rgba(255, 50, 50, 0.5)";
+
+    for(vampire in game.vampires.list) {
+        game.overlay.fillRect(minimapXoffset+(game.vampires.list[vampire].position.x/400)*10-3, minimapYoffset+(game.vampires.list[vampire].position.y/400)*10-3, 6, 6);
+        
+    }
+
+    
 }

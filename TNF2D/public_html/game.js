@@ -43,11 +43,11 @@ var game = {
     hero: {},
     entities: [],
     painter: {},
-    vampires: {
-        list: []
-    },
+    vampires: 0,
 
     init: function() {
+        game.vampires = new VampireManager();
+
         game.canvas = $('#gamecanvas')[0];
         game.overlaycanvas = $('#overlaycanvas')[0];
         game.context = game.canvas.getContext('2d');
@@ -121,6 +121,7 @@ var game = {
     step: function() {
 
         game.hero.update();
+        game.vampires.update();
 
     },
     animate: function() {

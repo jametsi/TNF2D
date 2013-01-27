@@ -79,12 +79,12 @@ Hero.prototype.move = function() {
         }
     }
     if (yMovement > 0) {
-        if(dungeon.map[x][y].TOPWALL && positionY > .64) {
+        if(dungeon.map[x][y].BOTTOMWALL && positionY > .64) {
             yMovement = 0;
         }
     }
     if (yMovement < 0) {
-        if(dungeon.map[x][y].BOTTOMWALL && positionY < .36) {
+        if(dungeon.map[x][y].TOPWALL && positionY < .36) {
             yMovement = 0;
         }
     }

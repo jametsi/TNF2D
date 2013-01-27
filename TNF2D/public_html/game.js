@@ -69,21 +69,26 @@ var game = {
         game.theme.volume = 0.6;
         game.theme.loop = true;
         game.theme.play();
+
+        loader.onload = function() {
+            console.log("loaded!");
+        }
+
         // Näytetään päämenu
         $('.gamelayer').hide();
         $('#startscreen').show();
 
     },
     playTutorial: function() {
-        $('.gamelayer').fadeToggle(100, function() {
-            $('#tutorialpage').fadeIn(100, function() {
+        $('.gamelayer').fadeToggle(2000, function() {
+            $('#tutorialpage').fadeIn(2000, function() {
                 $('#tutorialpage').click(function() {
 
                     // Feidataan teemamusiikki pois
                     $(game.theme).animate({volume:0},200);
 
                     // Feidataan tutoriaalisivu pois, ja startataan peli
-                    $('#tutorialpage').fadeOut(100, game.start);
+                    $('#tutorialpage').fadeOut(3000, game.start);
 
                 });
             });

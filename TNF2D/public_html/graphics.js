@@ -16,7 +16,7 @@ function Painter(){
     this.spotlight = new spotlight({
         steps: 1,
         size: 200,
-        blurRadius: 100
+        blurRadius: 80
     });
 }
 
@@ -139,7 +139,7 @@ Painter.prototype.drawHero = function() {
         if(game.hero.walking) {
             game.hero.changeFrame();
         }
-        this.counter = 1;
+      this.counter = 1;
     } else {
         this.counter++;
     }

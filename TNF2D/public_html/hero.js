@@ -68,6 +68,9 @@ Hero.prototype.move = function() {
         if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
             xMovement = 0;
         }
+        if(positionY+yMovement <= 0 && positionY+yMovement >= 400) {
+            tMovement = 0;
+        }
     }
     if (dungeon.map[x][y].RIGHTWALL) {
         if (positionX+xMovement >= 340 && positionX+xMovement <= 400) {
@@ -81,6 +84,34 @@ Hero.prototype.move = function() {
     }
     if (dungeon.map[x][y].BOTTOMWALL) {
         if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].RIGHTWALL) {
+        if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
+            xMovement = 0;
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].LEFTWALL) {
+        if((positionX+xMovement >= 340 && positionX+xMovement <= 400) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
+            xMovement = 0;
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].TOPWALL  && dungeon.map[x][y].LEFTWALL) {
+        if((positionX+xMovement >= 340 && positionX+xMovement <= 400) && (positionY+yMovement >= 340 && positionY+yMovement <= 400)) {
+            xMovement = 0;
+            yMovement = 0;
+        }
+    }
+
+    if(dungeon.map[x][y].TOPWALL  && dungeon.map[x][y].RIGHTWALL) {
+        if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 340 && positionY+yMovement <= 400)) {
+            xMovement = 0;
             yMovement = 0;
         }
     }

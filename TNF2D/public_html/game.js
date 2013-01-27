@@ -99,6 +99,7 @@ var game = {
 
     start: function() {
         game.painter = new Painter();
+        game.soundManager = new SoundManager();
         loader.init();
         dungeon.generateLevel(10, 10);
         dungeon.initImages();

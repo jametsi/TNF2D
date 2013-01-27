@@ -32,6 +32,7 @@ Painter.prototype.draw = function() {
     this.drawVampires();
     if(this.firstrender) {
         this.addSetofBats();
+        game.soundManager.playBats();
         this.firstrender = false;
     }
     this.drawFlashLight();

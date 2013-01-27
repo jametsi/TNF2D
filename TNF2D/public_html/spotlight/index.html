@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		@import url(http://fonts.googleapis.com/css?family=Shanti);
+		@import url(http://fonts.googleapis.com/css?family=Ropa+Sans);
+
+		body{
+			font-size: 13px;
+			line-height: 15px;
+			font-family: 'Ropa Sans', sans-serif;
+			background:	#BBE9FB;
+			z-index: 1000;
+			position: relative;
+		}
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		#wrapper{
+			width: 800px;
+			margin: auto;
+		}
+		#heading{
+			font-size: 44px;
+			padding-bottom: 60px;
+			padding-top: 110px;
+			text-align: center;
+			font-family: Shanti, sans-serif;
+		}
+		#subheading{
+			text-align: center;
+			font-style: italic;
+			padding-bottom: 40px;
+			font-size: 22px;
+			line-height: 34px;
+		}
+		#shortcuts{
+			text-align: center;		
+		}
+		#shortcuts ul{
+			list-style: none outside none;
+		}
+		#shortcuts ul li{
+			list-style: none outside none;
+			display: inline-block;
+			margin-right: 20px;
+		}
+		.badges{
+			background: none repeat scroll 0 0 #00AEEF;
+			color: #FFFFFF;
+			float: left;
+			font-weight: bold;
+			height: 50px;
+			padding: 20px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.badges:hover{
+			background: #90D607;
+		}
+		#start{
+			padding-bottom: 60px;
+			text-align: center;
+		}
+		.start{
+			background: #90D607;
+			border-radius: 20px;
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			width: 250px;
+			text-align: center;
+			text-decoration: none;
+			color: #FFFFFF;
+			font-weight: bold;
+			display: inline-block;
+			padding: 11px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="wrapper">
+		<div id="heading">
+			<h2> Jquery SpotLight Effect </h2>
+		</div>
+		<div id="subheading">
+			<p> Spotlight effects can be useful while giving live presentations, creating demo videos and rest
+			depends upon your creativity.</p>
+		</div><!-- subheading -->
+
+		<div id="start">
+			<a href="#" class="start"> Start Spotlight </a>
+		</div>
+		
+		<div id="shortcuts">
+			<ul>
+				<li><a href="#" class="badges"> START<br /><br />ctrl+shift </a></li>
+				<li><a href="#" class="badges"> STOP<br /><br />esc</a></li>
+				<li><a href="#" class="badges"> ZOOM IN<br /><br />ctrl+up</a></li>
+				<li><a href="#" class="badges"> ZOOM OUT<br /><br />ctrl+down</a></li>
+			</ul>
+		</div>
+	</div><!-- end wrapper -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="spotlight.js"></script>
+	<script type="text/javascript" src="hotkeys.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		var currentSize = 10;
+		var active = false;
+		
+		var sp = new spotlight({
+			steps: 1,
+			size: currentSize,
+			blurRadius: 100
+		});
+		$(document).mousemove(function(e){
+			if(active == true)
+			{
+				sp.move(e.pageX, e.pageY);
+			}
+		});
+
+		$(document).bind('keydown','ctrl+shift',function(){
+			sp.show(200,200);
+			$('#spotlight_canvas').show().css("position","absolute");
+			active = true;
+		});
+		
+		$('.start').live("click",function(){
+			sp.show(200,200);
+			$('#spotlight_canvas').show().css("position","absolute");
+			active = true;
+			return false;
+		})
+
+		$(document).bind('keydown','esc',function(){
+			sp.hide();
+			$('#spotlight_canvas').hide().css("position","relative");
+			active = false;
+		});
+		$(document).bind('keydown','ctrl+up',function(){
+			currentSize = currentSize + 10
+			sp.resize(currentSize);
+		});
+
+		$(document).bind('keydown','ctrl+down',function(){
+			currentSize = currentSize - 10
+			sp.resize(currentSize);
+		});
+	});
+</script>
+</body>
+</html>

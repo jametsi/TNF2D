@@ -29,13 +29,14 @@ Hero.prototype.turn = function() {
     var dy = keyhandler.cursorY - game.canvas.height/2;
     var newAngle = -(Math.atan2(dy, dx)*(180/Math.PI));
     //console.log(newAngle);
-
+    /*
     if(newAngle > this.angle % 360) {
         this.turnRight();
     }
     else if(newAngle < this.angle % 360) {
         this.turnLeft();
-    }
+    }*/
+    this.angle = newAngle;
 }
 
 Hero.prototype.turnRight = function() {

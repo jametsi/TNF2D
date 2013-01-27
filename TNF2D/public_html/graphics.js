@@ -79,7 +79,7 @@ Painter.prototype.ybounds = function(y, modifier) {
     return false;
 };
 
-Painter.prototype.tileWithinBounds = function(maptile) {
+Painter.prototype.tileWithinBounds = function(maptile) {/*
     var x = false, y = false;
     var position = new Vector(maptile.x + maptile.sizex/2, maptile.y + maptile.sizey/2)
     if (this.vectorWithinBounds(position)) {
@@ -89,10 +89,11 @@ Painter.prototype.tileWithinBounds = function(maptile) {
     else if (this.xbounds(position.x - maptile.sizex) || this.xbounds(position.x )) {
         x = true;
     }
-    if (x && (this.ybounds(position.y - maptile.sizey) || this.xbounds(position.y))) {
+    if (x && (this.ybounds(position.y - maptile.sizey) || this.xbounds(position.y))) { // <--- xbounds tässä????
         y = true;
     }
-    return x && y;
+    return x && y;*/
+    return true;
 };
 
 Painter.prototype.updateCameraPosition = function() {

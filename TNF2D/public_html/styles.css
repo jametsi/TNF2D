@@ -24,6 +24,11 @@ body, html {
     padding: 0px;
 }
 
+#wallcanvas {
+    margin: 0px;
+    padding: 0px;
+}
+
 #startscreen {
     position: relative;
     width: 500px;

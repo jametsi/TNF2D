@@ -31,12 +31,12 @@ Hero.prototype.turn = function() {
     var newAngle = -(Math.atan2(dy, dx)*(180/Math.PI));
     //console.log(newAngle);
     /*
-     if(newAngle > this.angle % 360) {
-     this.turnRight();
-     }
-     else if(newAngle < this.angle % 360) {
-     this.turnLeft();
-     }*/
+    if(newAngle > this.angle % 360) {
+        this.turnRight();
+    }
+    else if(newAngle < this.angle % 360) {
+        this.turnLeft();
+    }*/
     this.angle = newAngle;
 }
 
@@ -71,7 +71,7 @@ Hero.prototype.move = function() {
         if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
             xMovement = 0;
         }
-        if(positionX+xMovement <= 60 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
+        if(positionY+yMovement <= 0 && positionY+yMovement >= 400) {
             yMovement = 0;
         }
     }

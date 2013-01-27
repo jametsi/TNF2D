@@ -53,6 +53,10 @@ Hero.prototype.changeFrame = function() {
     this.lastAnimFrame = (this.lastAnimFrame + 1) % 3
 }
 
+Hero.prototype.getTile = function() {
+    return new Vector(Math.floor(this.position.x/400),Math.floor(this.position.y/400))
+}
+
 Hero.prototype.move = function() {
     var x = Math.floor(this.position.x/400);
     var y = Math.floor(this.position.y/400);

@@ -1,1 +1,24 @@
-Super mega awesome dungeon game etc
+
+  *****************
+
+	Awake in the Dark
+
+	*****************
+
+Programmers: Ville Heikkinen and Jami Karvanen
+Graphics: Veera Kontiokari
+Sounds: Ville Touronen and Joonas Turner
+
+
+Find your way out of a dungeon, beware of vampires!
+No Frameworks, no additional plugins, just HTML5.
+
+
+/src/ 		includes game release and media
+/press/ 	screenshot and project logo
+
+
+
+Source code is at	: https://github.com/jametsi/TNF2D
+Play in browser at	: http://aid.plop.fi
+

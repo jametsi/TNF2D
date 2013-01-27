@@ -10,6 +10,7 @@ function Hero(startVector) {
     this.spritewidth = 100;
     this.spriteheight = 100;
     this.walking = false;
+    this.health = 100;
     //console.log(this.sprite);
 
 }
@@ -38,6 +39,13 @@ Hero.prototype.turn = function() {
         this.turnLeft();
     }*/
     this.angle = newAngle;
+}
+
+Hero.prototype.takeDamage = function() {
+    game.hero.health -= .2;
+    if (game.hero.health < 0) {
+        game.ended = "DEATH";
+    }
 }
 
 Hero.prototype.turnRight = function() {
@@ -81,7 +89,7 @@ Hero.prototype.move = function() {
 
     if(dungeon.map[x][y].type==mapItems["FINISH"]) {
         if(positionX+xMovement >= 320 && (positionY+yMovement >= 125 && positionY+yMovement <= 275)) {
-            game.ended = true;
+            game.ended = "WIN";
         }
     }
 

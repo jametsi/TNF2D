@@ -93,31 +93,102 @@ Vampire.prototype.roam = function() {
 }
 
 Vampire.prototype.moveToBlock = function() {
-	switch(this.direction) {
-		case 'up':
-			this.position.y -= this.walkingSpeed;
-		break;
 
-		case 'right':
-			this.position.x += this.walkingSpeed;
-		break;
+    var movement = this.disableMovement();
 
-		case 'down':
-			this.position.y += this.walkingSpeed;
-		break;
+    if (movement[1]) {
+        switch(this.direction) {
+            case 'up':
+                this.position.y -= this.walkingSpeed;
+            break;
 
-		case 'left':
-			this.position.x -= this.walkingSpeed;
-		break;
+            case 'down':
+                this.position.y += this.walkingSpeed;
+            break;
+        }
+    }
 
-		default:
-		break;
-	}
+    if (movement[0]) {
+        switch(this.direction) {
+            case 'right':
+                this.position.x += this.walkingSpeed;
+            break;
+
+            case 'left':
+                this.position.x -= this.walkingSpeed;
+            break;
+        }
+    }
+
+}
+Vampire.prototype.disableMovement = function() {
+    var x = Math.floor(this.position.x/400);
+    var y = Math.floor(this.position.y/400);
+
+    if (dungeon.map[x] == undefined || dungeon.map[x][y] == undefined) {
+        return;
+    }
+
+
+    var positionX = Math.floor((this.position.x/400-(Math.floor(this.position.x/400)))*400);
+    var positionY = Math.floor((this.position.y/400-(Math.floor(this.position.y/400)))*400);
+
+    var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+    var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+
+    if (dungeon.map[x][y].LEFTWALL) {
+        if (positionX+xMovement-5 <= 60 && positionX+xMovement+5 >= 0) {
+            xMovement = 0;
+        }
+        if(positionY+yMovement-5 <= 0 && positionY+yMovement+5 >= 400) {
+            yMovement = 0;
+        }
+    }
+    if (dungeon.map[x][y].RIGHTWALL) {
+        if (positionX+xMovement+5 >= 340 && positionX+xMovement-5 <= 400) {
+            xMovement = 0;
+        }
+        if (positionX+xMovement+5 >= 340 && (positionY+yMovement+5 >= 0 && positionY+yMovement-5 <= 400)) {
+            yMovement = 0;
+        }
+    }
+
+    if (dungeon.map[x][y].TOPWALL) {
+        if (positionY+yMovement-5 <= 60 && positionY+yMovement+5 >= 0) {
+            yMovement = 0;
+        }
+        if (positionY+yMovement-5 <= 60 && (positionX+xMovement+5 >= 0 && positionX+xMovement-5 <= 400)) {
+            xMovement = 0;
+        }
+    }
+    if (dungeon.map[x][y].BOTTOMWALL) {
+        if (positionY+yMovement+5 >= 340 && positionY+yMovement-5 <= 400) {
+            yMovement = 0;
+        }
+        if (positionY+yMovement+5 >= 340 && (positionX+xMovement+5 >= 0 && positionX+xMovement-5 <= 400)) {
+            xMovement = 0;
+        }
+    }
+
+    if (xMovement == 0) {
+        xMovement = false
+    } else { xMovement = true }
+    if (yMovement ==     0) {
+        yMovement = false;
+    } else { yMovement = false}
+
+    return [xMovement, yMovement];
 }
 
 Vampire.prototype.move = function() {
-	this.position.x += Math.sin(this.angle * (Math.PI / 180)) * this.walkingSpeed;
-    this.position.y += Math.cos(this.angle * (Math.PI / 180)) * this.walkingSpeed;
+    var movement = this.disableMovement();
+
+    if (movement[0]) {
+	    this.position.x += Math.sin(this.angle * (Math.PI / 180)) * this.walkingSpeed;
+    }
+    if (movement[1]) {
+        this.position.y += Math.cos(this.angle * (Math.PI / 180)) * this.walkingSpeed;
+    }
 }
 
 Vampire.prototype.getTile = function() {

@@ -133,12 +133,18 @@ var game = {
         game.painter.draw();
        // game.drawAllEntities();
 
-        if (game.ended) {
+        if (game.ended == "WIN") {
             $('.gamelayer').hide();
             $('#endingscreen').fadeIn(300, function() {
                 $('#endingscreen').css("width", "100%");
                 $('#endingscreen').css("height", "100%");
             });
+        }
+        else if (game.ended == "DEATH") {
+            game.soundManager.playerDead.play();
+            $('.gamelayer').hide();
+            $('#endingscreen h1').html("YOU ARE DEAD!")
+            $('#endingscreen').fadeIn(300);
         }
         else {
             game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);

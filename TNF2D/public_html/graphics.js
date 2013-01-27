@@ -176,6 +176,7 @@ Painter.prototype.drawVampires = function() {
 
         var distance = game.vampires.list[vampire].position.subtract(game.hero.position).length();
         if( distance <= 30){
+            game.hero.takeDamage();
             this.addSplatter(game.vampires.list[vampire]);
         }
         //  if(this.vectorWithinBounds(game.vampires.list[vampire].position)) {

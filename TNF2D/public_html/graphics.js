@@ -149,6 +149,7 @@ Painter.prototype.drawHero = function() {
     if(this.counter == this.animcount) {
         if(game.hero.walking) {
             game.hero.changeFrame();
+
         }
         this.counter = 1;
     } else {

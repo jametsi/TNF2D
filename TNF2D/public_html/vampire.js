@@ -33,6 +33,8 @@ function Vampire(px,py) {
     this.height = 100;
     
     this.walking = true;
+
+    this.animTick = 0; // max 20
 }
 
 Vampire.prototype.update = function(hero) {
@@ -122,6 +124,8 @@ Vampire.prototype.attack = function(hero) {
 }
 
 Vampire.prototype.changeFrame = function() {
-    var max = 3;
-    this.walking = (this.walking + 1) % max;
+	this.animTick = (this.animTick + 1) % 20;
+	if(this.animTick == 0) {
+		this.walking = (this.walking + 1) % 3;
+	}   
 }

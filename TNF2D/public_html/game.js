@@ -101,7 +101,7 @@ var game = {
         game.painter = new Painter();
         game.soundManager = new SoundManager();
         loader.init();
-        dungeon.generateLevel(10, 10);
+        dungeon.generateLevel(4, 4);
         dungeon.initImages();
         game.hero = new Hero(dungeon.startPosition);
         dungeon.printArray();
@@ -134,7 +134,8 @@ var game = {
        // game.drawAllEntities();
 
         if (game.ended) {
-            //TODO näytä loppuruutu
+            $('.gamelayer').hide();
+            $('#endingscreen').fadeIn(300);
         }
         else {
             game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);

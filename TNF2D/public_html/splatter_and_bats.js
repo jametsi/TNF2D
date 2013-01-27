@@ -15,7 +15,8 @@ function Splatter(x, y) {
     this.lastAnimFrame = 0;
     this.spritewidth = 50;
     this.alive = true;
-    this.color = 'rgba(255,0,0,)';
+    this.size = 5+  Math.random() * 10;
+    this.color = 'rgba(255,0,0,';
 }
 
 Splatter.prototype.update = function() {

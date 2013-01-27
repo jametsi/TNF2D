@@ -4,17 +4,28 @@ body, html {
     width: 100%;
     height: 100%;
     overflow-y: hidden;
+    background-image: url('img/brick7.png');
+    background-repeat: repeat;
+
 }
 .gamelayer {
     position: absolute;
     display: none;
 }
+
+#logo {
+
+    margin-left: auto;
+    margin-right: auto:
+    position: absolute;
+}
 #gamecontainer {
     position:absolute;
     width: 100%;
     height: 100%;
-    background-image: url('img/brick.png');
-    background-repeat: repeat;
+    background-image: url('img/pelilogo.png');
+    background-repeat: no-repeat;
+    background-position: center top;
     margin: 0px;
     padding: 0px;
 }
@@ -33,10 +44,10 @@ body, html {
     position: relative;
     width: 500px;
     height: 400px;
-    top: 150px;
+    top: 250px;
     margin-left: auto;
     margin-right: auto;
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0,0,0,0.6);
     text-align: center;
     color: white;
     padding-top: 50px;

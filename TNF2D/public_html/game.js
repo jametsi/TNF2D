@@ -61,10 +61,13 @@ var game = {
 
         // Ladataan pelimusiikki
         game.theme = loader.loadSound("snd/TNFI2D_theme");
+        game.theme.volume = 0.6;
+        game.theme.loop = true;
         game.theme.play();
         // Näytetään päämenu
         $('.gamelayer').hide();
         $('#startscreen').show();
+
     },
     playTutorial: function() {
         $('.gamelayer').fadeToggle(100, function() {
@@ -72,20 +75,7 @@ var game = {
                 $('#tutorialpage').click(function() {
 
                     // Feidataan teemamusiikki pois
-                    $(game.theme).on('timeupdate', function () {
-                        var vol = 1,
-                            interval = 250;
-                        if (game.theme.volume == 1) {
-                            var intervalID = setInterval(function () {
-                                if (vol > 0) {
-                                    vol -= 0.02;
-                                    game.theme.volume = vol.toFixed(2);
-                                } else {
-                                    clearInterval(intervalID);
-                                }
-                            }, interval);
-                        }
-                    });
+                    $(game.theme).animate({volume:0},200);
 
                     // Feidataan tutoriaalisivu pois, ja startataan peli
                     $('#tutorialpage').fadeOut(100, game.start);

@@ -67,6 +67,18 @@ Hero.prototype.move = function() {
     var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
     var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 
+    var flashLightX = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * 280;
+    var flashLightY = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * 280;
+
+    for(var i = 0 ; i < game.vampires.list.length ; ++i ) {
+        var vampire = game.vampires.list[i]; {
+            var flashlight = new Vector(positionX+flashLightX, positionY+flashLightY);
+            if(flashlight.distance(vampire.position) <= 50*50) {
+                game.soundManager.playSnare();
+            }
+        }
+    }
+
     if(dungeon.map[x][y].type==mapItems["FINISH"]) {
         if(positionX+xMovement >= 320 && (positionY+yMovement >= 125 && positionY+yMovement <= 275)) {
             game.ended = true;

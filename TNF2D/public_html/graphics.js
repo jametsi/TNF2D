@@ -18,6 +18,8 @@ function Painter(){
         size: 200,
         blurRadius: 80
     });
+    this.firstrender = true;
+    this.bats = [];
 }
 
 Painter.prototype.draw = function() {
@@ -28,7 +30,12 @@ Painter.prototype.draw = function() {
     this.drawHero();
     this.drawSplatters();
     this.drawVampires();
+    if(this.firstrender) {
+        this.addSetofBats();
+        this.firstrender = false;
+    }
     this.drawFlashLight();
+    this.drawBats();
     // this.drawTiles();
     this.drawMiniMap();
 }
@@ -140,7 +147,7 @@ Painter.prototype.drawHero = function() {
         if(game.hero.walking) {
             game.hero.changeFrame();
         }
-      this.counter = 1;
+        this.counter = 1;
     } else {
         this.counter++;
     }
@@ -200,6 +207,39 @@ Painter.prototype.drawSplatters = function() {
     }
 }
 
+Painter.prototype.addSetofBats = function() {
+
+    for(var i = 0 ; i < 10 ; ++i) {
+        console.log("added")
+        var objectpos = game.hero.position;
+        var rnd_x = Math.random()*100-50;
+        var rnd_y = Math.random()*100-50;
+        this.bats.push(new Bat(objectpos.x+rnd_x, objectpos.y+rnd_y));
+    }
+}
+
+Painter.prototype.drawBats = function() {
+    for (var i in this.bats) {
+        var bat = this.bats[i];
+        var drawPos = bat.position.subtract(this.MIN);
+        var clip_offset_x = bat.lastAnimFrame * bat.spritewidth;
+        var translatepaskex = drawPos.x;
+        var translatepaskey = drawPos.y;
+        var sizemod = bat.getSizeModifier();
+
+        game.context.translate(translatepaskex, translatepaskey);
+        game.context.rotate(-bat.angle * Math.PI / 180 + Math.PI/2);
+        game.context.drawImage(bat.sprite, 0, 0, 80, 50, -25, -25, 50*sizemod, 50*sizemod);
+        game.context.rotate(bat.angle* Math.PI / 180 - Math.PI/2);
+        game.context.translate(-(translatepaskex), -(translatepaskey));
+        bat.update();
+
+    }
+    while (this.bats.length > 0 && !this.bats[0].alive) {
+        this.bats.shift();
+    }
+}
+
 Painter.prototype.drawVampire = function(vampire) {
     var clip_offset_x = vampire.lastAnimFrame*game.vampires.spritewidth;
     var drawPos = vampire.position.subtract(this.MIN);
@@ -232,8 +272,8 @@ Painter.prototype.drawMiniMap = function() {
 
     for(vampire in game.vampires.list) {
         game.overlay.fillRect(minimapXoffset+(game.vampires.list[vampire].position.x/400)*10-3, minimapYoffset+(game.vampires.list[vampire].position.y/400)*10-3, 6, 6);
-        
+
     }
 
-    
+
 }

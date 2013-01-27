@@ -11,6 +11,8 @@ var mapItems = {
     "WHITE": 9
 }
 
+var AMOUNT_OF_VAMPIRES = 0.75; // 25% chance for vampire
+
 mapTile = function(type, x, y)  {
     this.TOPWALL = true;
     this.BOTTOMWALL = true;
@@ -169,8 +171,9 @@ var dungeon = {
                 current = nextnode;
                 if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
                     current.type = mapItems["FLOOR"];
-                    if(Math.random() > 0.925) {
+                    if(Math.random() > AMOUNT_OF_VAMPIRES) {
                         current.type = mapItems["VAMPIRE"];
+                        game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
                     }
                 }
                 dungeon.initialvisits++;

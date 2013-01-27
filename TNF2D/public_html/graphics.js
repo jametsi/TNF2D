@@ -27,14 +27,14 @@ Painter.prototype.drawFlashLight = function() {
     var height = this.flashLightImage.height;
     var width = this.flashLightImage.width;
 
-    game.overlay.globalCompositeOperation = "lighter";
-    //game.overlay.globalAlpha = 1.0;
+   game.overlay.globalCompositeOperation = "lighter";
+  //  game.overlay.globalAlpha = 0.5;
     game.overlay.translate(translatepaskex, translatepaskey);
     game.overlay.rotate(-game.hero.angle * Math.PI / 180 + Math.PI/2);
     game.overlay.drawImage(this.flashLightImage, -100, -220, width, height);
     game.overlay.rotate(game.hero.angle* Math.PI / 180 - Math.PI/2);
     game.overlay.translate(-(translatepaskex), -(translatepaskey));
-  //  game.overlay.globalAlpha = 1.0;
+ //   game.overlay.globalAlpha = 1.0;
 
 }
 

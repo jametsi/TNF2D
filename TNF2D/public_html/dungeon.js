@@ -225,7 +225,7 @@ var dungeon = {
 
     generateMazePaths: function(x, y) {
         var current = dungeon.map[x][y];
-        console.log("current: " + x + " y " + y);
+     //   console.log("current: " + x + " y " + y);
         var stack = [];
         dungeon.initialvisits = 1;
 

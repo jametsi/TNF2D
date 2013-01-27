@@ -72,25 +72,35 @@ Hero.prototype.move = function() {
             xMovement = 0;
         }
         if(positionY+yMovement <= 0 && positionY+yMovement >= 400) {
-            tMovement = 0;
+            yMovement = 0;
         }
     }
     if (dungeon.map[x][y].RIGHTWALL) {
         if (positionX+xMovement >= 340 && positionX+xMovement <= 400) {
             xMovement = 0;
         }
+        if (positionX+xMovement >= 340 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
+            yMovement = 0;
+        }
     }
+
     if (dungeon.map[x][y].TOPWALL) {
         if (positionY+yMovement <= 60 && positionY+yMovement >= 0) {
             yMovement = 0;
+        }
+        if (positionY+yMovement <= 60 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
+            xMovement = 0;
         }
     }
     if (dungeon.map[x][y].BOTTOMWALL) {
         if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
             yMovement = 0;
         }
+        if (positionY+yMovement >= 340 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
+            xMovement = 0;
+        }
     }
-
+/*
     if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].RIGHTWALL) {
         if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
             xMovement = 0;
@@ -117,9 +127,10 @@ Hero.prototype.move = function() {
             xMovement = 0;
             yMovement = 0;
         }
-    }
+    }*/
 
 
     this.position.x += xMovement;
     this.position.y += yMovement;
+
 }

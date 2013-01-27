@@ -112,6 +112,42 @@ mapTile = function(type, x, y)  {
         game.context.drawImage(this.image, drawx, drawy, 200, 200);
     },
 
+    this.collidesHorizontal = function(positionX, positionY) {
+        if (this.LEFTWALL) {
+            if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
+                xMovement = 0;
+            }
+            if(positionX+xMovement <= 60 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
+                yMovement = 0;
+            }
+        }
+        if (this.RIGHTWALL) {
+            if (positionX+xMovement >= 340 && positionX+xMovement <= 400) {
+                xMovement = 0;
+            }
+            if (positionX+xMovement >= 340 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
+                yMovement = 0;
+            }
+        }
+
+        if (this.TOPWALL) {
+            if (positionY+yMovement <= 60 && positionY+yMovement >= 0) {
+                yMovement = 0;
+            }
+            if (positionY+yMovement <= 60 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
+                xMovement = 0;
+            }
+        }
+        if (this.BOTTOMWALL) {
+            if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
+                yMovement = 0;
+            }
+            if (positionY+yMovement >= 340 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
+                xMovement = 0;
+            }
+        }
+    }
+
         this.getPosition = function() {
             return new Vector(this.x*this.sizex, this.y*this.sizey);
         }
@@ -158,9 +194,9 @@ var dungeon = {
 
     generateLevel: function (xsize, ysize) {
         var startx = 0;
-        var starty =  Math.floor(Math.random() * ysize - 1);
+        var starty =  Math.floor(Math.random() * ysize);
         var finishx = xsize - 1;
-        var finishy = Math.floor(Math.random() * ysize - 1);
+        var finishy = Math.floor(Math.random() * ysize);
 
 
 
@@ -205,12 +241,12 @@ var dungeon = {
                 current = nextnode;
                 if(current.type != mapItems["FINISH"] && current.type != mapItems["START"]) {
                     current.type = mapItems["FLOOR"];
-                    if(Math.random() > 0.5) {
-                      //  if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
-                            current.type = mapItems["VAMPIRE"];
-                            console.log("Added vampire!");
-                            game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
-                     //   }
+                    if(Math.random() > AMOUNT_OF_VAMPIRES) {
+                        //  if((!current.LEFTWALL && !current.RIGHTWALL) && (!current.TOPWALL && !current.BOTTOMWALL)) {
+                        current.type = mapItems["VAMPIRE"];
+                        console.log("Added vampire!");
+                        game.vampires.list.push(new Vampire(current.x * 400 +200, current.y*400 +200));
+                        //   }
                     }
                 }
                 dungeon.initialvisits++;

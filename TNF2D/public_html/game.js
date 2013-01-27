@@ -58,6 +58,7 @@ var game = {
         game.overlay.height = window.innerHeight;
         game.overlay.width = window.innerWidth;
 
+
         // Ladataan pelimusiikki
         game.theme = loader.loadSound("snd/TNFI2D_theme");
         game.theme.play();

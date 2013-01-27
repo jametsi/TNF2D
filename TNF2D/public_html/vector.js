@@ -43,8 +43,13 @@ Vector.prototype.deltay = function(vector) {
     return this.y - vector.y;
 };
 
+Vector.prototype.distance = function(vector) {
+    var distanceVector = new Vector(this.deltax(vector), this.deltay(vector));
+    return Math.sqrt(distanceVector.squaredLength());
+}
+
 Vector.prototype.angle = function(vector) {
     var deltaX = vector.x - this.x;
     var deltaY = vector.y - this.y;
-    return Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    return Math.atan2(deltaX, deltaY) * 180 / Math.PI;
 }

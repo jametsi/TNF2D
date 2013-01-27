@@ -43,7 +43,9 @@ var game = {
     hero: {},
     entities: [],
     painter: {},
-    vampires: [],
+    vampires: {
+        list: []
+    },
 
     init: function() {
         game.canvas = $('#gamecanvas')[0];

@@ -3,6 +3,12 @@
 function VampireManager() {
 	this.list = [];
 	this.sprite = loader.loadImage("img/vampire_spritesheet_final_katseylos.png");
+    this.growls = [];
+    this.growls.push(loader.loadSound("audio/vampirelurk1"));
+    this.growls.push(loader.loadSound("audio/vampirelurk2"));
+    this.growls.push(loader.loadSound("audio/vampirelurk3"));
+    this.growls.push(loader.loadSound("audio/vampirelurk4"));
+    this.lastGrowled = new Date();
 
 	this.spritewidth = 100;
     this.spriteheight = 100;
@@ -17,6 +23,13 @@ VampireManager.prototype.update = function(hero) {
 	for(var i = 0; i < this.list.length; i++) {
 		this.list[i].update(hero);
 	}
+}
+VampireManager.prototype.playGrowl = function() {
+    if (new Date() - this.lastGrowled > 4000) {
+        var growl = Math.floor(Math.random()*4);
+        this.growls[growl].play();
+        this.lastGrowled = new Date();
+    }
 }
 
 function Vampire(px,py) {
@@ -38,12 +51,14 @@ function Vampire(px,py) {
 }
 
 Vampire.prototype.update = function(hero) {
-	if(this.position.distance(hero.position) < 1600*1600) { // If hero is in line of sight or close or something...
-		this.attack(hero);
+
+	if(this.position.distance(hero.position) < 400) { // If hero is in line of sight or close or something...
+        game.vampires.playGrowl();
+        this.attack(hero);
 	}
 	
 	else {
-		this.attack(hero);
+		this.roam();
 	}
 }
 

@@ -102,7 +102,7 @@ var mapItemImageUrls = {
     "TOP_LEFT_BOTTOM"   : 'img/seina_vasenalayla.png',
     "RIGHT_BOTTOM"      : 'img/seina_oikeaala.png',
     "TOP_RIGHT"         : 'img/seina_oikeayla.png',
-    "LEFT_BOTTOM"       : 'img/seina_vasenalaoikea.png',
+    "LEFT_BOTTOM"       : 'img/seina_vasenala.png',
     "TOP_LEFT"          : 'img/seina_vasenyla.png',
     "FLOOR1"            : 'img/floortile1.png',
     "FLOOR2"            : 'img/floortile2.png',

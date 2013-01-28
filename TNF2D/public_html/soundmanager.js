@@ -2,12 +2,22 @@ function SoundManager() {
 
     var self = this;
 
-    this.theme = loader.loadSound("audio/CaveAmbWav");
-    this.theme.volume = 0.4;
+    this.menuTheme = loader.loadSound("snd/TNFI2D_theme");
+    // Looppaus kuntoon selaimesta riipumatta
+    this.menuTheme.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
 
-    this.theme.loop = true;
 
-    this.theme.play();
+    this.ambient = loader.loadSound("audio/CaveAmbWav");
+    this.ambient.volume = 0.4;
+    // Looppaus kuntoon selaimesta riipumatta
+    this.ambient.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+
 
     this.playerDead = loader.loadSound("audio/playerdead1");
 
@@ -33,6 +43,27 @@ function SoundManager() {
 
     this.bat = loader.loadSound("audio/BatsDemoWav");
     this.bat.volume = 0.1;
+}
+SoundManager.prototype.fadeOutMenuTheme = function() {
+    //this.menuTheme.pause();
+
+        var vol = 1,
+            interval = 200; // 200ms interval
+
+        var intervalID = setInterval(function() {
+
+            if (vol > 0) {
+                if (vol <= 0.05) {
+                    vol = 0;
+                } else { vol -= 0.05 }
+
+                game.soundManager.menuTheme.volume = vol;
+            } else {
+                clearInterval(intervalID);
+                game.soundManager.menuTheme.pause();
+            }
+        }, interval);
+
 }
 SoundManager.prototype.playGrowl = function() {
     if (new Date() - this.lastGrowled > 4000) {

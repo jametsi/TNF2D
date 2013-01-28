@@ -64,11 +64,8 @@ var game = {
         dungeon.generateLevel(10, 10);
         dungeon.initImages();
 
-        // Ladataan pelimusiikki
-        game.theme = loader.loadSound("snd/TNFI2D_theme");
-        game.theme.volume = 0.6;
-        game.theme.loop = true;
-        game.theme.play();
+        // Startataan menumusiikki
+        game.soundManager.menuTheme.play();
 
         loader.onload = function() {
             console.log("loaded!");
@@ -85,7 +82,7 @@ var game = {
                 $('#tutorialpage').click(function() {
 
                     // Feidataan teemamusiikki pois
-                    $(game.theme).animate({volume:0},200);
+                    game.soundManager.fadeOutMenuTheme();
 
                     // Feidataan tutoriaalisivu pois, ja startataan peli
                     $('#tutorialpage').fadeOut(3000, game.start);
@@ -99,14 +96,11 @@ var game = {
 
     start: function() {
 
+        game.soundManager.ambient.play();
         game.painter = new Painter();
         game.hero = new Hero(dungeon.startPosition);
         dungeon.printArray();
-        //console.log(dungeon.map);
 
-        /*        for (var entity in level.entities) {
-         entities.create(level.entities[entity]);
-         }*/
         game.ended = false;
 
         keyhandler.init();

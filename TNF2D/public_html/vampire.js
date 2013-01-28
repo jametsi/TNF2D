@@ -56,7 +56,10 @@ Vampire.prototype.update = function(hero) {
 }
 
 Vampire.prototype.roam = function() {
-	this.walkingSpeed = 0.3;
+
+    // ROAMING IS DISABLED!
+
+	/*this.walkingSpeed = 0.3;
 
 	var posvec = this.getTile();
 
@@ -91,7 +94,7 @@ Vampire.prototype.roam = function() {
 		}
 	} else {
 		this.moveToBlock(this.direction);
-	}
+	}*/
 }
 
 Vampire.prototype.moveToBlock = function() {

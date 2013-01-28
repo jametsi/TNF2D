@@ -261,7 +261,7 @@ var dungeon = {
     initImages: function() {
         for(var imagename in mapItemImageUrls) {
             mapItemImages[imagename] = loader.loadImage(mapItemImageUrls[imagename]);
-            console.log(mapItemImages[imagename]);
+            //console.log(mapItemImages[imagename]);
         }
         for(var i = 0 ; i < dungeon.map[0].length; ++i) {
             for(var j = 0 ; j < dungeon.map.length; ++j) {

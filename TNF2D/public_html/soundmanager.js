@@ -5,8 +5,8 @@ function SoundManager() {
     this.menuTheme = loader.loadSound("snd/TNFI2D_theme");
     // Looppaus kuntoon selaimesta riipumatta
     this.menuTheme.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
+        game.soundManager.menuTheme.currentTime = 0;
+        game.soundManager.menuTheme.play();
     }, false);
 
 
@@ -14,8 +14,8 @@ function SoundManager() {
     this.ambient.volume = 0.4;
     // Looppaus kuntoon selaimesta riipumatta
     this.ambient.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
+        game.soundManager.ambient.currentTime = 0;
+        game.soundManager.ambient.play();
     }, false);
 
 
@@ -24,14 +24,14 @@ function SoundManager() {
     this.growls = [];
     for (var i = 1; i<5; i++) {
         this.growls.push(loader.loadSound("audio/vampirelurk"+i));
-        this.growls[i-1].volume = 0.5;
+        this.growls[i-1].volume = 0.2;
     }
     this.lastGrowled = new Date();
 
     this.attacks = [];
     for (var i = 1; i<5; i++) {
         this.attacks.push(loader.loadSound("audio/vampireattack"+i));
-        this.attacks[i-1].volume = 0.5;
+        this.attacks[i-1].volume = 0.2;
     }
     this.lastAttacked = new Date();
 
@@ -42,7 +42,7 @@ function SoundManager() {
     this.lastSnared = new Date();
 
     this.bat = loader.loadSound("audio/BatsDemoWav");
-    this.bat.volume = 0.1;
+    this.bat.volume = 0.7;
 }
 SoundManager.prototype.fadeOutMenuTheme = function() {
     //this.menuTheme.pause();

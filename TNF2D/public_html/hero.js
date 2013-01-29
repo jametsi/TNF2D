@@ -101,87 +101,28 @@ Hero.prototype.move = function() {
     var x = Math.floor(this.position.x/400);
     var y = Math.floor(this.position.y/400);
 
-    var positionX = Math.floor((this.position.x/400-(Math.floor(this.position.x/400)))*400);
-    var positionY = Math.floor((this.position.y/400-(Math.floor(this.position.y/400)))*400);
+    var position = new Vector(0,0);
 
-    var xMovement = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
-    var yMovement = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+    position.x = Math.floor((this.position.x/400-(Math.floor(this.position.x/400)))*400);
+    position.y = Math.floor((this.position.y/400-(Math.floor(this.position.y/400)))*400);
+
+    var movement = new Vector(0,0);
+    movement.x = Math.sin(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
+    movement.y = Math.cos(this.angle * (Math.PI / 180)+ Math.PI/2) * this.walkingSpeed;
 
     if(keyhandler.down) {
-        xMovement = -xMovement/2;
-        yMovement = -yMovement/2;
+        movement = movement.multiply(-0.5);
     }
 
     if(dungeon.map[x][y].type==mapItems["FINISH"]) {
-        if(positionX+xMovement >= 320 && (positionY+yMovement >= 125 && positionY+yMovement <= 275)) {
+        if(dungeon.map[x][y].isCharlieSheenBiWinning(this.position.add(movement))) {
             game.ended = "WIN";
         }
     }
 
-    if (dungeon.map[x][y].LEFTWALL) {
-        if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
-            xMovement = 0;
-        }
-        if(positionY+yMovement <= 0 && positionY+yMovement >= 400) {
-            yMovement = 0;
-        }
-    }
-    if (dungeon.map[x][y].RIGHTWALL) {
-        if (positionX+xMovement >= 340 && positionX+xMovement <= 400) {
-            xMovement = 0;
-        }
-        if (positionX+xMovement >= 340 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
-            yMovement = 0;
-        }
-    }
 
-    if (dungeon.map[x][y].TOPWALL) {
-        if (positionY+yMovement <= 60 && positionY+yMovement >= 0) {
-            yMovement = 0;
-        }
-        if (positionY+yMovement <= 60 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
-            xMovement = 0;
-        }
-    }
-    if (dungeon.map[x][y].BOTTOMWALL) {
-        if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
-            yMovement = 0;
-        }
-        if (positionY+yMovement >= 340 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
-            xMovement = 0;
-        }
-    }
-/*
-    if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].RIGHTWALL) {
-        if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
-            xMovement = 0;
-            yMovement = 0;
-        }
-    }
-
-    if(dungeon.map[x][y].BOTTOMWALL  && dungeon.map[x][y].LEFTWALL) {
-        if((positionX+xMovement >= 340 && positionX+xMovement <= 400) && (positionY+yMovement >= 0 && positionY+yMovement <= 60)) {
-            xMovement = 0;
-            yMovement = 0;
-        }
-    }
-
-    if(dungeon.map[x][y].TOPWALL  && dungeon.map[x][y].LEFTWALL) {
-        if((positionX+xMovement >= 340 && positionX+xMovement <= 400) && (positionY+yMovement >= 340 && positionY+yMovement <= 400)) {
-            xMovement = 0;
-            yMovement = 0;
-        }
-    }
-
-    if(dungeon.map[x][y].TOPWALL  && dungeon.map[x][y].RIGHTWALL) {
-        if((positionX+xMovement >= 0 && positionX+xMovement <= 60) && (positionY+yMovement >= 340 && positionY+yMovement <= 400)) {
-            xMovement = 0;
-            yMovement = 0;
-        }
-    }*/
-
-
-    this.position.x += xMovement;
-    this.position.y += yMovement;
+    movement = dungeon.map[x][y].collisionCheck(this.position, movement);
+    console.log("movement:", movement.x, " ", movement.y);
+    this.position = this.position.add(movement);
 
 }

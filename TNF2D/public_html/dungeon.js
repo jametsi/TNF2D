@@ -11,8 +11,7 @@ var mapItems = {
     "WHITE": 9
 }
 
-var AMOUNT_OF_VAMPIRES = 0.25;
-
+var AMOUNT_OF_VAMPIRES = 0.0;
 mapTile = function(type, x, y)  {
     this.TOPWALL = true;
     this.BOTTOMWALL = true;
@@ -107,46 +106,66 @@ mapTile = function(type, x, y)  {
         }
     }
 
+    this.isCharlieSheenBiWinning = function(positionVec) {
+        // Translate player position to something even Charlie Sheen understands
+        positionVec = positionVec.subtract(new Vector(this.x*400, this.y*400));
 
-    this.draw = function(drawx, drawy) {
-        game.context.drawImage(this.image, drawx, drawy, 200, 200);
-    },
-
-        this.collidesHorizontal = function(positionX, positionY) {
-            if (this.LEFTWALL) {
-                if (positionX+xMovement <= 60 && positionX+xMovement >= 0) {
-                    xMovement = 0;
-                }
-                if(positionX+xMovement <= 60 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
-                    yMovement = 0;
-                }
-            }
-            if (this.RIGHTWALL) {
-                if (positionX+xMovement >= 340 && positionX+xMovement <= 400) {
-                    xMovement = 0;
-                }
-                if (positionX+xMovement >= 340 && (positionY+yMovement >= 0 && positionY+yMovement <= 400)) {
-                    yMovement = 0;
-                }
-            }
-
-            if (this.TOPWALL) {
-                if (positionY+yMovement <= 60 && positionY+yMovement >= 0) {
-                    yMovement = 0;
-                }
-                if (positionY+yMovement <= 60 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
-                    xMovement = 0;
-                }
-            }
-            if (this.BOTTOMWALL) {
-                if (positionY+yMovement >= 340 && positionY+yMovement <= 400) {
-                    yMovement = 0;
-                }
-                if (positionY+yMovement >= 340 && (positionX+xMovement >= 0 && positionX+xMovement <= 400)) {
-                    xMovement = 0;
-                }
-            }
+        if(positionVec.x >= 320 && (positionVec.y >= 125 && positionVec.y <= 275 )) {
+            return true;
         }
+        return false;
+    }
+
+    this.collisionCheck = function(positionVec, movementVec) {
+        // Generic collision function, see later function for use
+        function checkWallCollision(wallTopLeft, wallBottomRight, position, movement) {
+            var targetPos = position.add(movement);
+            if(targetPos.x >= wallTopLeft.x && targetPos.x <= wallBottomRight.x && targetPos.y >= wallTopLeft.y && targetPos.y <= wallBottomRight.y ) {
+                if(targetPos.x >= wallTopLeft.x && targetPos.x <= wallBottomRight.x && (targetPos.y >= wallTopLeft.y || targetPos.y <= wallBottomRight.y)) {
+                    if(movement.y > 0) {
+                        movement.y = 0;
+                    }
+                    else {
+                        movement.y = 0;
+                    }
+                }
+                if(targetPos.y >= wallTopLeft.y && targetPos.y <= wallBottomRight.y && (targetPos.x >= wallTopLeft.x || targetPos.x <= wallBottomRight.x)) {
+                    if(movement.x > 0) {
+                        movement.x = 0;
+                    }
+                    else {
+                        movement.x = 0;
+                    }
+                }
+            }
+            return movement;
+        }
+        // Translate player position to something this tile understands:
+        positionVec = positionVec.subtract(new Vector(this.x*400, this.y*400));
+        if (this.LEFTWALL) {
+            movementVec = checkWallCollision(new Vector(0,0), new Vector(50, 400), positionVec, movementVec);
+        }
+        if (this.RIGHTWALL) {
+            movementVec = checkWallCollision(new Vector(350,0), new Vector(400, 400), positionVec, movementVec);
+        }
+        if (this.TOPWALL) {
+            movementVec = checkWallCollision(new Vector(0,0), new Vector(400, 50), positionVec, movementVec);
+        }
+        if (this.BOTTOMWALL) {
+            movementVec = checkWallCollision(new Vector(0,350), new Vector(400, 400), positionVec, movementVec);
+        }
+        // And finally the ugly stuff, all corners, should be an all walls..
+        //Top left
+        movementVec = checkWallCollision(new Vector(0,0), new Vector(50, 50), positionVec, movementVec);
+        //Top right
+        movementVec = checkWallCollision(new Vector(350,0), new Vector(400, 50), positionVec, movementVec);
+        //Bottom left
+        movementVec = checkWallCollision(new Vector(0,350), new Vector(50, 400), positionVec, movementVec);
+        //Bottom Right
+        movementVec = checkWallCollision(new Vector(350,350), new Vector(400, 400), positionVec, movementVec);
+
+        return movementVec;
+    }
 
     this.getPosition = function() {
         return new Vector(this.x*this.sizex, this.y*this.sizey);
@@ -225,7 +244,7 @@ var dungeon = {
 
     generateMazePaths: function(x, y) {
         var current = dungeon.map[x][y];
-     //   console.log("current: " + x + " y " + y);
+        //   console.log("current: " + x + " y " + y);
         var stack = [];
         dungeon.initialvisits = 1;
 

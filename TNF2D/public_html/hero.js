@@ -122,7 +122,6 @@ Hero.prototype.move = function() {
 
 
     movement = dungeon.map[x][y].collisionCheck(this.position, movement);
-    console.log("movement:", movement.x, " ", movement.y);
     this.position = this.position.add(movement);
 
 }

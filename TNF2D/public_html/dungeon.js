@@ -11,7 +11,7 @@ var mapItems = {
     "WHITE": 9
 }
 
-var AMOUNT_OF_VAMPIRES = 0.0;
+var AMOUNT_OF_VAMPIRES = 0.15;
 mapTile = function(type, x, y)  {
     this.TOPWALL = true;
     this.BOTTOMWALL = true;
